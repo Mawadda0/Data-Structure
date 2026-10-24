@@ -1,13 +1,7 @@
-#include <bits/stdc++.h>
-using namespace std;
+#ifndef CIRCULARLINKEDLIST_H
+#define CIRCULARLINKEDLIST_H
 
-#define nl '\n'
-#define ll long long
-#define fixed(n) fixed << setprecision(n)
-#define sz(x) (int)(x.size())
-#define all(v) v.begin(), v.end()
-
-// "سُبْحَانَكَ لا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ"
+#include<Template.h>
 
 class Node
 {
@@ -220,41 +214,5 @@ public:
         cout << "List Has Been Deleted" << nl;
     }
 };
-void solve()
-{
-    Circular_Linked_List li;
-    li.AddToHead(0);
-    li.AddToHead(10);
-    li.AddToHead(20);
-    li.AddToTail(30);
 
-    //printing list
-    li.PrintList();
-
-    //insert after a specific value
-    li.InsertAfter(10, 50);
-    li.PrintList();
-
-    //delete from head
-    li.DeleteFromHead();
-    li.PrintList();
-
-    //delete from tail
-    li.DeleteFromTail();
-    li.PrintList();
-
-    //delete a specific node
-    li.DeleteNode(10);
-    li.PrintList();
-
-    //return number of nodes
-    li.getCount();
-    li.PrintList();
-}
-
-signed main()
-{
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    solve();
-    return 0;
-}
+#endif

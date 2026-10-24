@@ -1,13 +1,7 @@
-#include <bits/stdc++.h>
-using namespace std;
+#ifndef DOUBLYLINKEDLIST_H
+#define DOUBLYLINKEDLIST_H
 
-#define nl '\n'
-#define ll long long
-#define fixed(n) fixed << setprecision(n)
-#define sz(x) (int)(x.size())
-#define all(v) v.begin(), v.end()
-
-// "سُبْحَانَكَ لا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ"
+#include<Template.h>
 
 class Node
 {
@@ -257,37 +251,4 @@ public:
     }
 };
 
-void solve()
-{
-    Doubly_Linked_List li1;
-    // Add to list
-    li1.AddToHead(5);
-    li1.AddToHead(6);
-    li1.AddToHead(7);
-    // print list
-    li1.printList();
-    // check if val is found or not
-    li1.FindNode(2);
-    li1.FindNode(5);
-    // inserting after a middle value
-    li1.InsertAfter(6, 4);
-    li1.printList();
-    // inserting after the last value
-    li1.InsertAfter(5, 10);
-    li1.printList();
-    // inserting after the fist value
-    li1.InsertAfter(7, 2);
-    li1.printList();
-    // reversing the list
-    li1.reverse();
-    li1.printList();
-
-    
-}
-
-signed main()
-{
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    solve();
-    return 0;
-}
+#endif
