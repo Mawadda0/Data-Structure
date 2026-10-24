@@ -7,9 +7,6 @@ using namespace std;
 #define sz(x) (int)(x.size())
 #define all(v) v.begin(), v.end()
 
-
-// "سُبْحَانَكَ لا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ"
-
 class Node
 {
 public:
