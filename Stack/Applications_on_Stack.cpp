@@ -1,16 +1,6 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-#define nl '\n'
-#define ll long long
-#define fixed(n) fixed << setprecision(n)
-#define sz(x) (int)(x.size())
-#define all(v) v.begin(), v.end()
-
+#include<Template.h>
 
 const int MAX = 100;
-
-// "سُبْحَانَكَ لا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ"
 
 template <typename T>
 class Stack
@@ -241,30 +231,4 @@ string decTobin(int n)
     string bin = "";
     while (!st.IsEmpty()) bin += to_string(st.Pop());
     return bin;
-}
-
-
-void solve()
-{
-    cout << Reverse("Hello") << nl;
-    cout << checkBalance("{([{}])}") << nl;
-    cout << checkBalance("{([{}]}") << nl;
-    cout << infix_to_postfix("2+5*(4/2)-3") << nl;
-    cout << isPalindrome("aba") << nl;
-    cout << isPalindrome("abaa") << nl;
-    cout << decTobin(9) << nl;
-    cout << evaluate_postfix("45 15 2 * +") << nl;
-}
-
-signed main()
-{
-    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
-    int tc = 1;
-    //cin >> tc;
-    while (tc--)
-    {
-        solve();
-        if(tc) cout << nl;
-    }
-    return 0;
 }
