@@ -62,7 +62,7 @@ try
 }
 catch(const char *msg)
 {
-    std::cout << msg << '\n';   // Queue is empty (Underflow)
+    cout << msg << '\n';   // Queue is empty (Underflow)
 }
 ```
 
@@ -186,7 +186,7 @@ int main()
     q.enqueue(5);      // reuses the freed cells
     q.enqueue(6);
     q.print();         // 3 4 5 6
-    std::cout << q.Size() << " " << q.isFull() << " " << q.search(5) << '\n';
+    cout << q.Size() << " " << q.isFull() << " " << q.search(5) << '\n';
 }
 ```
 
@@ -244,8 +244,8 @@ int main()
     q.enqueue(20);
     q.enqueue(30);
     q.print();                           // 10 20 30
-    std::cout << q.dequeue() << '\n';    // 10
-    std::cout << q.peek() << '\n';       // 20
+    cout << q.dequeue() << '\n';    // 10
+    cout << q.peek() << '\n';       // 20
 
     try
     {
@@ -254,7 +254,7 @@ int main()
     }
     catch(const char *msg)
     {
-        std::cout << msg << '\n';
+        cout << msg << '\n';
     }
 }
 ```

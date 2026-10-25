@@ -48,17 +48,17 @@ public:
     {
         if(isEmpty())
         {
-            std::cout << "Queue is Empty\n";
+            cout << "Queue is Empty\n";
             return;
         }
  
         Node<T> *curr = head;
         while(curr != nullptr)
         {
-            std::cout << curr->data << " ";
+            cout << curr->data << " ";
             curr = curr->next;
         }
-        std::cout << "\n";
+        cout << "\n";
     }
  
     // ---------- Queue operations ----------

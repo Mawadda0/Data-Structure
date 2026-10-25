@@ -44,7 +44,7 @@ public:
             delete head;
             head = nullptr;
         }
-        std::cout << "Node Has Been Deleted." << '\n';
+        cout << "Node Has Been Deleted." << '\n';
     }
  
     // ---------- Utilities ----------
@@ -58,7 +58,7 @@ public:
     {
         if(head == nullptr)
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         int idx = 1;
@@ -67,29 +67,29 @@ public:
         {
             if(curr->Data == val)
             {
-                std::cout << "Value Is Found, Value's Position Is : " << idx << '\n';
+                cout << "Value Is Found, Value's Position Is : " << idx << '\n';
                 return;
             }
             else idx++;
             curr = curr->next;
         }
-        std::cout << "Value Isn't Found." << '\n';
+        cout << "Value Isn't Found." << '\n';
     }
  
     void printList() const
     {
         if(head == nullptr)
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         Node *curr = head;
         while(curr != nullptr)
         {
-            std::cout << curr->Data << " ";
+            cout << curr->Data << " ";
             curr = curr->next;
         }
-        std::cout << '\n';
+        cout << '\n';
     }
  
     // ---------- Adding ----------
@@ -126,7 +126,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         Node *curr = head;
@@ -136,7 +136,7 @@ public:
             {
                 AddToTail(data);
             }
-            else std::cout << "Value Isn't Found" << '\n';
+            else cout << "Value Isn't Found" << '\n';
             return;
         }
         while(curr != nullptr && curr->Data != val)
@@ -145,7 +145,7 @@ public:
         }
         if(curr == nullptr)
         {
-            std::cout << "Value Isn't Found" << '\n';
+            cout << "Value Isn't Found" << '\n';
             return;
         }
         if(curr->next == nullptr)
@@ -165,7 +165,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == nullptr)
@@ -183,7 +183,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == nullptr)
@@ -207,7 +207,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == nullptr)
@@ -219,7 +219,7 @@ public:
             }
             else
             {
-                std::cout << "Value Isn't Found." << '\n';
+                cout << "Value Isn't Found." << '\n';
             }
             return;
         }
@@ -230,7 +230,7 @@ public:
         }
         if(curr == nullptr)
         {
-            std::cout << "Value Isn't Found" << '\n';
+            cout << "Value Isn't Found" << '\n';
             return;
         }
         if(curr == head)
@@ -254,7 +254,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == nullptr) return;

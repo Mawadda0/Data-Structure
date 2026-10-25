@@ -84,7 +84,7 @@ int main()
 
     l.DelAtVal(10);        // 5 15 20
     l.printList();
-    std::cout << l.getCount() << '\n';
+    cout << l.getCount() << '\n';
 }
 ```
 

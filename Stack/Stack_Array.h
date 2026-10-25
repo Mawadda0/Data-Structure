@@ -3,82 +3,94 @@
 
 #include "Template.hpp"
 
-const int MAX = 100;
-
+// Stack with a fixed capacity, stored in an array.
+// Search reports the index counted from the bottom of the stack (0-based).
 class Stack
 {
 private:
+    static constexpr int MAX = 100;
+ 
     int top;
     int arr[MAX];
+ 
 public:
+    // ---------- Constructor ----------
     Stack()
     {
         top = -1;
     }
-    //---
-    bool IsEmpty()
+ 
+    // ---------- Utilities ----------
+    bool IsEmpty() const
     {
         return top == -1;
     }
-    //---
-    void Push(int val)
-    {
-        if(top == MAX - 1)
-        {
-            return void(cout << "Stack Overflow." << nl);
-        }
-        arr[++top] = val;
-    }
-    //---
-    void Pop()
+ 
+    void Search(int val) const
     {
         if(IsEmpty())
         {
-            return void(cout << "Stack UnderFlow." << nl);
-        }
-        int x = arr[top];
-        top--;
-        cout << "Poped Element Is : " << x << nl;
-    }
-    //---
-    void Peek()
-    {
-        if(IsEmpty())
-        {
-            return void(cout << "Stack Underflow." << nl);
-        }
-        cout << "Top Element Is: " << arr[top] << nl;
-    }
-    //---
-    void Search(int val)
-    {
-        if(IsEmpty())
-        {
-            return void(cout << "Stack Is Empty." << nl);    
+            cout << "Stack Is Empty." << '\n';
+            return;
         }
         int i;
         for(i = top; i >= 0; i--)
         {
             if(arr[i] == val)
             {
-                cout << "Value found at position : " << i << nl;
+                cout << "Value found at position : " << i << '\n';
                 return;
-            }    
+            }
         }
         if(i == 0 && arr[i] != val)
         {
-            return void(cout << "Value isn't found" << nl);    
+            cout << "Value isn't found" << '\n';
+            return;
         }
     }
-    //---
-    void Print()
+ 
+    void Print() const
     {
         if(IsEmpty())
         {
-            return void(cout << "Stack Is Empty." << nl);
+            cout << "Stack Is Empty." << '\n';
+            return;
         }
         for(int i = top; i >= 0; i--) cout << arr[i] << " ";
-        cout << nl;
+        cout << '\n';
+    }
+ 
+    // ---------- Stack operations ----------
+    void Push(int val)
+    {
+        if(top == MAX - 1)
+        {
+            cout << "Stack Overflow." << '\n';
+            return;
+        }
+        arr[++top] = val;
+    }
+ 
+    void Pop()
+    {
+        if(IsEmpty())
+        {
+            cout << "Stack UnderFlow." << '\n';
+            return;
+        }
+        int x = arr[top];
+        top--;
+        cout << "Poped Element Is : " << x << '\n';
+    }
+ 
+    void Peek() const
+    {
+        if(IsEmpty())
+        {
+            cout << "Stack Underflow." << '\n';
+            return;
+        }
+        cout << "Top Element Is: " << arr[top] << '\n';
     }
 };
 

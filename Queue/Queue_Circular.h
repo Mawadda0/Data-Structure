@@ -45,15 +45,15 @@ public:
     {
         if(isEmpty())
         {
-            std::cout << "Queue is Empty\n";
+            cout << "Queue is Empty\n";
         }
         else
         {
             for(int i = front; i != rear; i = (i + 1) % MAX_SIZE)
             {
-                std::cout << arr[i] << " ";
+                cout << arr[i] << " ";
             }
-            std::cout << arr[rear] << '\n';
+            cout << arr[rear] << '\n';
         }
     }
  
@@ -75,7 +75,7 @@ public:
     {
         if(isFull())
         {
-            std::cout << "Queue is full (overflow)\n";
+            cout << "Queue is full (overflow)\n";
             return;
         }
         else if(isEmpty())
@@ -125,11 +125,11 @@ public:
     // ---------- Bulk operations ----------
     void enqueueN(int n)
     {
-        std::cout << "Enter " << n << " values:\n";
+        cout << "Enter " << n << " values:\n";
         for(int i = 0; i < n; i++)
         {
             T x;
-            std::cin >> x;
+            cin >> x;
             enqueue(x);
         }
     }
@@ -140,11 +140,11 @@ public:
         {
             try
             {
-                std::cout << "Removed: " << dequeue() << "\n";
+                cout << "Removed: " << dequeue() << "\n";
             }
             catch(const char *msg)
             {
-                std::cout << msg << "\n";
+                cout << msg << "\n";
                 return;
             }
         }

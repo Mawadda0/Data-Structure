@@ -1,6 +1,6 @@
 # Vector: A Custom Dynamic Array in C++
 
-> A from-scratch implementation of a resizable array (like `std::vector`) using a raw pointer, `new[]` and `delete[]`. It covers capacity management, resizing, deep copying, and amortized time complexity.
+> A from-scratch implementation of a resizable array (like `vector`) using a raw pointer, `new[]` and `delete[]`. It covers capacity management, resizing, deep copying, and amortized time complexity.
 
 ## Table of Contents
 
@@ -35,12 +35,12 @@ int main()
     v.Print();
 
     for (int x : v)
-        std::cout << x << " ";
-    std::cout << '\n';
+        cout << x << " ";
+    cout << '\n';
 
     Vector<int> copy = v;   // copy constructor
     copy[0] = -1;           // does not affect v
-    std::cout << v[0] << " " << copy[0] << '\n';
+    cout << v[0] << " " << copy[0] << '\n';
 }
 ```
 
@@ -164,11 +164,11 @@ The tradeoff is simple: `[]` makes a bug visible immediately, while `get` and `s
 
 ### Iterators `begin()` and `end()`
 
-`begin()` returns a pointer to the first element, and `end()` returns a pointer one past the last element. Having these two (in lowercase) is what makes range-based `for` loops and algorithms like `std::sort` work:
+`begin()` returns a pointer to the first element, and `end()` returns a pointer one past the last element. Having these two (in lowercase) is what makes range-based `for` loops and algorithms like `sort` work:
 
 ```cpp
 for (int x : v)
-    std::cout << x << " ";
+    cout << x << " ";
 ```
 
 ---
@@ -215,7 +215,7 @@ Let `n` be the current size of the vector.
 | `find(val)` | Linear search. Returns the index of the first match, or `-1` | O(n) | O(1) |
 | `getMax()` | Largest element, or `T()` if empty | O(n) | O(1) |
 | `getMin()` | Smallest element, or `T()` if empty | O(n) | O(1) |
-| `Sort()` | Sorts ascending using `std::sort` | O(n log n) | O(log n) |
+| `Sort()` | Sorts ascending using `sort` | O(n log n) | O(log n) |
 | `Reverse()` | Reverses the elements in place | O(n) | O(1) |
 | `Print()` | Prints all elements separated by spaces | O(n) | O(1) |
 
@@ -260,5 +260,5 @@ The same argument applies to `popBack` with the shrink-at-a-quarter rule.
 - **`Clear()` does not free memory.** It only resets the size, so the capacity stays where it was. A vector that once held a million elements keeps its large block.
 - **Deep copies are expensive.** Passing a `Vector` by value copies every element, so prefer `const Vector<T> &` for function parameters.
 - **No move semantics.** There is no move constructor or move assignment, so returning or reassigning large vectors always copies. Adding them is a natural next step (the rule of five).
-- **Elements are default-constructed.** The `new T[cap]()` expression constructs `cap` objects up front, so `T` must have a default constructor, unlike `std::vector`, which constructs elements only when they are inserted.
+- **Elements are default-constructed.** The `new T[cap]()` expression constructs `cap` objects up front, so `T` must have a default constructor, unlike `vector`, which constructs elements only when they are inserted.
 - **Single-threaded only.** There is no synchronization.

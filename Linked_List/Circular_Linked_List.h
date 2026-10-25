@@ -41,7 +41,7 @@ public:
         }
         delete head;
         head = nullptr;
-        std::cout << "List Has Been Deleted" << '\n';
+        cout << "List Has Been Deleted" << '\n';
     }
  
     // ---------- Utilities ----------
@@ -55,7 +55,7 @@ public:
     {
         if(head == nullptr)
         {
-            std::cout << "List Size Is : 0" << '\n';
+            cout << "List Size Is : 0" << '\n';
             return;
         }
         int idx = 1;
@@ -65,24 +65,24 @@ public:
             curr = curr->next;
             idx++;
         }
-        std::cout << "List Size Is : " << idx << '\n';
+        cout << "List Size Is : " << idx << '\n';
     }
  
     void PrintList() const
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
-        std::cout << head->Data;
+        cout << head->Data;
         Node *curr = head->next;
         while(curr != head)
         {
-            std::cout << " " << curr->Data;
+            cout << " " << curr->Data;
             curr = curr->next;
         }
-        std::cout << '\n';
+        cout << '\n';
     }
  
     // ---------- Adding ----------
@@ -126,7 +126,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         Node *no = new Node(data);
@@ -143,7 +143,7 @@ public:
         }
         if(curr == head)
         {
-            std::cout << "Value Isn't Found." << '\n';
+            cout << "Value Isn't Found." << '\n';
             return;
         }
         no->next = curr->next;
@@ -155,7 +155,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == head)
@@ -180,7 +180,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == head)
@@ -203,7 +203,7 @@ public:
     {
         if(IsEmpty())
         {
-            std::cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << '\n';
             return;
         }
         if(head->next == head)
@@ -216,7 +216,7 @@ public:
             }
             else
             {
-                std::cout << "Value Isn't Found." << '\n';
+                cout << "Value Isn't Found." << '\n';
                 return;
             }
         }
@@ -234,7 +234,7 @@ public:
         }
         if(curr == head)
         {
-            std::cout << "Value Isn't Found." << '\n';
+            cout << "Value Isn't Found." << '\n';
             return;
         }
         pre->next = curr->next;

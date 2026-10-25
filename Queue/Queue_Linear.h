@@ -36,15 +36,15 @@ public:
     {
         if(isEmpty())
         {
-            std::cout << "Queue is Empty\n";
+            cout << "Queue is Empty\n";
         }
         else
         {
             for(int i = front; i <= rear; i++)
             {
-                std::cout << arr[i] << " ";
+                cout << arr[i] << " ";
             }
-            std::cout << '\n';
+            cout << '\n';
         }
     }
  
@@ -53,7 +53,7 @@ public:
     {
         if(rear == MAX_SIZE - 1)
         {
-            std::cout << "Queue is full (overflow)\n";
+            cout << "Queue is full (overflow)\n";
             return;
         }
         else if(isEmpty())

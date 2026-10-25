@@ -45,10 +45,10 @@ int main()
     d.Sort();             // 1 2 5 9
 
     for (int i = 0; i < d.Size(); i++)
-        std::cout << d[i] << " ";
-    std::cout << '\n';
+        cout << d[i] << " ";
+    cout << '\n';
 
-    std::cout << d.Front() << " " << d.Back() << " " << d[2] << '\n';
+    cout << d.Front() << " " << d.Back() << " " << d[2] << '\n';
 }
 ```
 
@@ -236,13 +236,13 @@ Both convert the logical index with `phys()` and use `assert`, so an invalid ind
 
 ```cpp
 for (int i = 0; i < d.Size(); i++)
-    std::cout << d[i] << " ";
+    cout << d[i] << " ";
 
 for (int i = 0; i < d.Size(); i++)   // modify in place
     d[i] *= 2;
 ```
 
-Algorithms that need iterators, such as `std::sort`, cannot be used directly either. That is why `Sort` and `Reverse` are member functions.
+Algorithms that need iterators, such as `sort`, cannot be used directly either. That is why `Sort` and `Reverse` are member functions.
 
 ---
 
@@ -289,7 +289,7 @@ Let `n` be the current size of the deque.
 | `find(val)`  | Linear search. Returns the logical index of the first match, or `-1` | O(n)       | O(1)        |
 | `getMax()`   | Largest element, or `T()` if empty                                | O(n)       | O(1)        |
 | `getMin()`   | Smallest element, or `T()` if empty                               | O(n)       | O(1)        |
-| `Sort()`     | Makes the storage contiguous, then sorts ascending with `std::sort` | O(n log n) | O(log n)    |
+| `Sort()`     | Makes the storage contiguous, then sorts ascending with `sort` | O(n log n) | O(log n)    |
 | `Reverse()`  | Makes the storage contiguous, then reverses in place              | O(n)       | O(1)        |
 | `Print()`    | Prints all elements from front to back, separated by spaces       | O(n)       | O(1)        |
 
@@ -306,9 +306,9 @@ Let `n` be the current size of the deque.
 
 ### Why `Sort` and `Reverse` call `linearize()`
 
-`std::sort` and `std::reverse` expect the elements in one straight run of memory. If the elements are wrapped, they would also include the empty cells in the middle.
+`sort` and `reverse` expect the elements in one straight run of memory. If the elements are wrapped, they would also include the empty cells in the middle.
 
-`linearize()` fixes this with a single `std::rotate(arr, arr + head, arr + cap)`. The empty cells always sit right after the last element (going around the circle), so rotating the whole array left by `head` places the elements first and the empty cells last:
+`linearize()` fixes this with a single `rotate(arr, arr + head, arr + cap)`. The empty cells always sit right after the last element (going around the circle), so rotating the whole array left by `head` places the elements first and the empty cells last:
 
 ```
 cap = 10, head = 8, size = 5
@@ -352,9 +352,9 @@ This is the key point: the circular layout removes the shifting, and doubling re
 
 The only structural differences are the `head` index and the wrap-around. Everything else follows the same design as `Vector`.
 
-### Comparison with `std::deque`
+### Comparison with `deque`
 
-The standard library's `std::deque` uses a different design: it stores elements in many fixed-size blocks and keeps a table of pointers to them. Growing it never moves existing elements, and references to elements stay valid after a `push` at either end. The cost is a slightly slower index lookup (two steps instead of one).
+The standard library's `deque` uses a different design: it stores elements in many fixed-size blocks and keeps a table of pointers to them. Growing it never moves existing elements, and references to elements stay valid after a `push` at either end. The cost is a slightly slower index lookup (two steps instead of one).
 
 The circular array used here is simpler and has faster indexing, but a resize copies every element, so those references and pointers are invalidated. Both designs give O(1) amortized operations at the two ends.
 

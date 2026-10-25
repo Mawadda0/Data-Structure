@@ -1,92 +1,97 @@
 #include "Template.hpp"
 
-const int MAX = 100;
-
+// ---------- Stack (array-based template) ----------
 template <typename T>
 class Stack
 {
 private:
+    static constexpr int MAX = 100;
+ 
     int top;
     T arr[MAX];
-
+ 
 public:
     Stack()
     {
         top = -1;
     }
-
-    bool IsEmpty()
+ 
+    bool IsEmpty() const
     {
         return top == -1;
     }
+ 
     // Push
     void Push(T val)
     {
         if(top == MAX - 1)
         {
-            cout << "Stack Overflow." << nl;
+            cout << "Stack Overflow." << '\n';
             return;
         }
         arr[++top] = val;
     }
+ 
     // Pop (Always returns a value)
     T Pop()
     {
         if(IsEmpty())
         {
-            cout << "Stack UnderFlow." << nl;
+            cout << "Stack UnderFlow." << '\n';
             return T();   // return default value of T
         }
         return arr[top--];
     }
+ 
     // Peek
-    T Peek()
+    T Peek() const
     {
         if(IsEmpty())
         {
-            cout << "Stack Underflow." << nl;
+            cout << "Stack Underflow." << '\n';
             return T();
         }
         return arr[top];
     }
-    // Search
-    void Search(T val)
+ 
+    // Search (index counted from the bottom of the stack)
+    void Search(T val) const
     {
         if(IsEmpty())
         {
-            cout << "Stack Is Empty." << nl;
+            cout << "Stack Is Empty." << '\n';
             return;
         }
         for(int i = top; i >= 0; i--)
         {
             if(arr[i] == val)
             {
-                cout << "Value found at position : " << i << nl;
+                cout << "Value found at position : " << i << '\n';
                 return;
             }
         }
-        cout << "Value isn't found" << nl;
+        cout << "Value isn't found" << '\n';
     }
-    //--
-    void Print()
+ 
+    void Print() const
     {
         if(IsEmpty())
         {
-            cout << "Stack Is Empty." << nl;
+            cout << "Stack Is Empty." << '\n';
             return;
         }
         for(int i = top; i >= 0; i--)
             cout << arr[i] << " ";
-        cout << nl;
+        cout << '\n';
     }
 };
-
-
+ 
+// ---------- Applications ----------
 string Reverse(string s)
 {
-    Stack <char> st;
+    Stack<char> st;
     string res = "";
-    for(int i = 0; i < sz(s); i++)
+    for(int i = 0; i < (int)s.size(); i++)
     {
         st.Push(s[i]);
     }
@@ -96,11 +101,11 @@ string Reverse(string s)
     }
     return res;
 }
-
+ 
 bool checkBalance(string s)
 {
-    Stack <char> st;
-    for(int i = 0; i < sz(s); i++)
+    Stack<char> st;
+    for(int i = 0; i < (int)s.size(); i++)
     {
         if(s[i] == '(' || s[i] == '[' || s[i] == '{') st.Push(s[i]);
         else
@@ -110,15 +115,16 @@ bool checkBalance(string s)
             {
                 if((s[i] == ')' && st.Peek() == '(') || (s[i] == ']' && st.Peek() == '[') || (s[i] == '}' && st.Peek() == '{'))
                 {
-                    st.Pop();    
-                }else return false;
-            }    
+                    st.Pop();
+                }
+                else return false;
+            }
         }
-    } 
+    }
     if(st.IsEmpty()) return true;
     else return false;
 }
-
+ 
 int priority(char op)
 {
     if(op == '+' || op == '-') return 1;
@@ -126,23 +132,23 @@ int priority(char op)
     else if(op == '^') return 3;
     else return 0;
 }
-
+ 
 string infix_to_postfix(string exp)
 {
-    Stack <char> s;
+    Stack<char> s;
     string result = "";
-    for(int i = 0; i < exp.length(); i++)
+    for(int i = 0; i < (int)exp.length(); i++)
     {
         if(isspace(exp[i])) { continue; }
         else if(isdigit(exp[i]))
         {
             string num = "";
-            while(i < exp.length() && isdigit(exp[i]))
+            while(i < (int)exp.length() && isdigit(exp[i]))
             {
                 num += exp[i];
                 i++;
             }
-            i--; 
+            i--;
             result += num + ' ';
         }
         else if(exp[i] == '(')
@@ -175,25 +181,25 @@ string infix_to_postfix(string exp)
     }
     return result;
 }
-
+ 
 int evaluate_postfix(string exp)
 {
-    Stack <char> s;
-    for(int i = 0; i < sz(exp); i++)
+    Stack<char> s;
+    for(int i = 0; i < (int)exp.size(); i++)
     {
-        if(isspace(exp[i])) {continue;}
+        if(isspace(exp[i])) { continue; }
         else if(isdigit(exp[i]))
         {
             int num = 0;
-            while(i < exp.length() && isdigit(exp[i]))
+            while(i < (int)exp.length() && isdigit(exp[i]))
             {
-                num = num * 10 + (exp[i] - '0');  
+                num = num * 10 + (exp[i] - '0');
                 i++;
             }
             i--;
-            s.Push(num); 
+            s.Push(num);
         }
-        else 
+        else
         {
             int second = s.Pop();
             int first = s.Pop();
@@ -208,17 +214,16 @@ int evaluate_postfix(string exp)
     }
     return s.Peek();
 }
-
+ 
 bool isPalindrome(string s)
 {
     Stack<char> st;
-    for(int i = 0; i < sz(s); i++) st.Push(s[i]);
+    for(int i = 0; i < (int)s.size(); i++) st.Push(s[i]);
     string rev = "";
-    while (!st.IsEmpty()) rev += st.Pop();
+    while(!st.IsEmpty()) rev += st.Pop();
     return rev == s;
 }
-
-
+ 
 string decTobin(int n)
 {
     if(n == 0) return "0";
@@ -229,6 +234,6 @@ string decTobin(int n)
         n /= 2;
     }
     string bin = "";
-    while (!st.IsEmpty()) bin += to_string(st.Pop());
+    while(!st.IsEmpty()) bin += to_string(st.Pop());
     return bin;
 }
