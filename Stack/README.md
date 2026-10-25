@@ -16,15 +16,15 @@
 
 ## Files
 
-| File                        | Description                                                             |
-| --------------------------- | ----------------------------------------------------------------------- |
-| `Stack_Array.h`             | `Stack` for `int` values, stored in a fixed array of 100 cells          |
-| `Stack_Linked_List.h`       | `Stack` for `int` values, stored as a linked list with no fixed capacity |
-| `Applications_on_Stack.cpp` | A template `Stack<T>` and the application functions built on top of it  |
+| File                        | Description |
+| --------------------------- | ----------- |
+| `Stack_Array.hpp`           | `Stack<T>` stored in a fixed array of 100 cells. `Pop` and `Peek` **return** the value |
+| `Stack_Linked_List.hpp`     | `Stack<T>` stored as a linked list with no fixed capacity. `Pop` and `Peek` **print** the value |
+| `Applications_on_Stack.cpp` | The application functions (reverse, brackets, postfix, ...), built on `Stack_Array.hpp` |
 
-The two headers both define a class named `Stack` (and the linked list one also defines `Node`), so include only one of them in the same source file.
+Both headers are class templates and both define a class named `Stack` (the linked list one also defines `Node<T>`), so include only one of them in the same source file. Every header starts with `#include "Template.hpp"`, the shared header of the repository that provides the standard library includes, `using namespace std;` and the `nl` macro (a newline). This is why the examples use `cout` and `string` without the `std::` prefix.
 
-`Applications_on_Stack.cpp` is a `.cpp` file with **no `main`**. It carries its own array-based `Stack<T>`, so it does not need the headers. To use it, declare the functions you need and compile it together with your own `main`:
+`Applications_on_Stack.cpp` is a `.cpp` file with **no `main`**. It includes `Stack_Array.hpp` for its stack. To use it, declare the functions you need and compile it together with your own `main`:
 
 ```
 g++ main.cpp Applications_on_Stack.cpp -o app
@@ -53,13 +53,13 @@ Push(10)    Push(20)    Push(30)    Pop()       Pop()
 
 All three are O(1). A stack is also what the program itself uses for function calls (each call pushes an activation record, and each `return` pops it), which is covered in `02_stack_vs_heap_memory_allocation`.
 
-Both implementations print their results and error messages instead of returning values: `Pop` prints `Poped Element Is : x`, `Peek` prints `Top Element Is : x`, and an empty stack prints `Stack Underflow.`.
+The two implementations differ in what `Pop` and `Peek` do. In the array version they **return** the value, and on an empty stack they print an underflow message and return `T()` (the default value, such as `0`), so they can be used inside expressions. In the linked list version they are `void` and **print** the result: `Pop` prints `Poped Element Is : x`, `Peek` prints `Top Element Is : x`, and an empty stack prints `Stack Underflow.`.
 
 ---
 
 ## Array-Based Stack
 
-The values live in an array of `MAX = 100` cells, and the integer `top` is the index of the top element. `top = -1` means the stack is empty.
+The values live in an array of `MAX = 100` cells of type `T`, and the integer `top` is the index of the top element. `top = -1` means the stack is empty.
 
 ```
 index:   0    1    2    3    4   ...  99
@@ -69,23 +69,23 @@ index:   0    1    2    3    4   ...  99
 ```
 
 - `Push` increments `top` and writes into `arr[top]` (`arr[++top] = val`).
-- `Pop` reads `arr[top]` and decrements `top`. The old value stays in the array, but it is no longer part of the stack.
+- `Pop` reads `arr[top]`, decrements `top`, and returns the value. The old value stays in the array, but it is no longer part of the stack.
 - Pushing when `top == MAX - 1` prints `Stack Overflow.`.
 
 ### Usage
 
 ```cpp
-#include "Stack_Array.h"
+#include "Stack_Array.hpp"
 
 int main()
 {
-    Stack s;
+    Stack<int> s;
     s.Push(10);
     s.Push(20);
     s.Push(30);
-    s.Print();         // top first
-    s.Peek();
-    s.Pop();
+    s.Print();                       // top first
+    cout << s.Peek() << '\n';        // 30
+    cout << s.Pop() << '\n';         // 30
     s.Search(10);
     s.Print();
 }
@@ -95,11 +95,13 @@ Output:
 
 ```
 30 20 10
-Top Element Is: 30
-Poped Element Is : 30
+30
+30
 Value found at position : 0
 20 10
 ```
+
+Because `Pop` and `Peek` return values, the caller decides what to do with them: print them, store them, or use them in an expression.
 
 ### Functions reference
 
@@ -110,14 +112,14 @@ Let `n` be the number of elements.
 | `Stack()` | Creates an empty stack (`top = -1`) | O(1) |
 | `IsEmpty()` | Returns `true` if the stack has no elements | O(1) |
 | `Push(val)` | Adds `val` on top, or prints `Stack Overflow.` when full | O(1) |
-| `Pop()` | Removes the top element and prints it, or prints `Stack UnderFlow.` | O(1) |
-| `Peek()` | Prints the top element, or prints `Stack Underflow.` | O(1) |
+| `Pop()` | Removes and **returns** the top element, or prints `Stack UnderFlow.` and returns `T()` | O(1) |
+| `Peek()` | **Returns** the top element without removing it, or prints `Stack Underflow.` and returns `T()` | O(1) |
 | `Search(val)` | Looks from the top down and prints the **array index** where `val` is found | O(n) |
 | `Print()` | Prints all elements from the top down | O(n) |
 
 `Search` reports the index counted from the **bottom** of the stack (0-based), so in the example above `10` is at position 0.
 
-The whole stack lives inside the object (404 bytes: 100 `int`s plus `top`), whether it holds one element or a hundred. There is nothing to free, so no destructor is needed.
+The whole stack lives inside the object (404 bytes for `Stack<int>`: 100 `int`s plus `top`), whether it holds one element or a hundred. There is nothing to free, so no destructor is needed.
 
 ---
 
@@ -136,7 +138,26 @@ head (top)
 - `Pop` removes the head node, prints its value, and deletes the node.
 - The destructor deletes every remaining node.
 
-The usage code is exactly the same as for the array version, with `#include "Stack_Linked_List.h"`. Output:
+Here `Pop` and `Peek` print by themselves, so the usage is a little different:
+
+```cpp
+#include "Stack_Linked_List.hpp"
+
+int main()
+{
+    Stack<int> s;
+    s.Push(10);
+    s.Push(20);
+    s.Push(30);
+    s.Print();         // top first
+    s.Peek();
+    s.Pop();
+    s.Search(10);
+    s.Print();
+}
+```
+
+Output:
 
 ```
 30 20 10
@@ -170,7 +191,8 @@ Here `Search` counts from the **top** and starts at 1, so in the example `10` is
 | Capacity | Fixed (100) | Limited only by memory |
 | Overflow possible | Yes | No |
 | `Push`, `Pop`, `Peek` | O(1) | O(1) |
-| Memory | Fixed 404 bytes, used or not | 16 bytes per element (4-byte `int` + padding + 8-byte pointer) |
+| `Pop` and `Peek` | Return the value (`T()` on underflow) | Print the value and return nothing |
+| Memory | Fixed: 404 bytes for `T = int`, used or not | 16 bytes per element for `T = int` (4-byte `int` + padding + 8-byte pointer) |
 | Allocation | None while running | One `new` and one `delete` per push and pop |
 | Cache behavior | Elements are contiguous | Nodes can be scattered |
 | `Search` numbering | Index from the bottom, 0-based | Position from the top, 1-based |
@@ -183,7 +205,7 @@ For a stack whose maximum size is known and small, the array is simpler and fast
 
 ## Applications
 
-`Applications_on_Stack.cpp` contains a `Stack<T>` template (array-based, 100 cells) and the functions below. This stack differs from the header versions in one way: it **returns** values instead of printing them. `Pop()` returns the removed element and `Peek()` returns the top, and on an empty stack both print an underflow message and return `T()` (the default value, such as `0`), so the algorithms can use them inside expressions.
+`Applications_on_Stack.cpp` builds the functions below on top of `Stack<char>` and `Stack<int>` from `Stack_Array.hpp`. Since `Pop()` and `Peek()` return values, the algorithms use them directly inside expressions, such as `result += st.Pop();`. On an empty stack they print an underflow message and return `T()` (the default value, such as `0`).
 
 | Function | Result | Time | Extra space |
 | --- | --- | --- | --- |
@@ -197,8 +219,7 @@ For a stack whose maximum size is known and small, the array is simpler and fast
 ### Usage
 
 ```cpp
-#include <iostream>
-#include <string>
+#include "Template.hpp"
 
 string Reverse(string s);
 bool checkBalance(string s);
@@ -337,11 +358,11 @@ pop: 1, 0, 1, 0   ->   "1010"
 
 These are confirmed behaviors of the current code.
 
-**`Stack_Array.h`**
+**`Stack_Array.hpp`**
 
-- **`Search` prints nothing when the value is not found.** After the loop finishes, `i` is `-1`, so the check `if (i == 0 && arr[i] != val)` is false and the "not found" message is never printed. (The stack inside `Applications_on_Stack.cpp` and the linked list version both print `Value isn't found`.)
+- **`Search` prints nothing when the value is not found.** After the loop finishes, `i` is `-1`, so the check `if (i == 0 && arr[i] != val)` is false and the "not found" message is never printed. (The linked list version prints `Value isn't found`.)
 
-**`Stack_Linked_List.h`**
+**`Stack_Linked_List.hpp`**
 
 - **No copy constructor and no copy assignment.** Copying a `Stack` copies only the `head` pointer, so both stacks point to the same nodes and both destructors delete them (a double free). Pass stacks by reference and never copy them.
 
@@ -352,4 +373,4 @@ These are confirmed behaviors of the current code.
 - **Division by zero is not checked** in `evaluate_postfix`.
 - **`checkBalance` expects brackets only.** Any character that is not an opening bracket is treated as a closing bracket, so a string with other characters returns `false`. For example, `checkBalance("(a)")` is `false`.
 - **`infix_to_postfix` does not validate its input.** An unmatched `)` makes the loop `while (s.Peek() != '(')` run forever, because `Peek` on an empty stack returns `'\0'`.
-- **Fixed capacity.** The `Stack<T>` holds at most 100 elements, so very long expressions print `Stack Overflow.`.
+- **Fixed capacity.** The `Stack<T>` from `Stack_Array.hpp` holds at most 100 elements, so very long expressions print `Stack Overflow.`.

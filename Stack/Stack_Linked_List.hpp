@@ -4,12 +4,11 @@
 #include "Template.hpp"
 
 template <typename T>
-
 class Node
 {
 public:
-    int data;
-    Node *next;
+    T data;
+    Node<T> *next;
 };
  
 // Stack stored as a singly linked list: head is the top of the stack.
@@ -18,7 +17,7 @@ template <typename T>
 class Stack
 {
 private:
-    Node *head;
+    Node<T> *head;
  
 public:
     // ---------- Constructors and destructor ----------
@@ -29,7 +28,7 @@ public:
  
     ~Stack()
     {
-        Node *curr = head;
+        Node<T> *curr = head;
         while(!isEmpty())
         {
             head = head->next;
@@ -51,7 +50,7 @@ public:
             cout << "Stack is empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         int pos = 1;
         while(curr != nullptr)
         {
@@ -77,7 +76,7 @@ public:
             cout << "Stack Is Empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr)
         {
             cout << curr->data << " ";
@@ -89,7 +88,7 @@ public:
     // ---------- Stack operations ----------
     void Push(T value)
     {
-        Node *p = new Node;
+        Node<T> *p = new Node<T>;
         p->data = value;
         p->next = head;
         head = p;
@@ -102,7 +101,7 @@ public:
             cout << "Stack Underflow." << nl;
             return;
         }
-        Node *temp = head;
+        Node<T> *temp = head;
         head = head->next;
         T value = temp->data;
         delete temp;

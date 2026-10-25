@@ -77,7 +77,7 @@ public:
         if(IsEmpty())
         {
             cout << "Stack UnderFlow." << nl;
-            return;
+            return T();
         }
         T x = arr[top];
         top--;
@@ -89,7 +89,7 @@ public:
         if(IsEmpty())
         {
             cout << "Stack Underflow." << nl;
-            return;
+            return T();
         }
         return arr[top];
     }
