@@ -1,4 +1,4 @@
-#include<Template.h>
+#include "Template.hpp"
 
 const int MAX = 100;
 

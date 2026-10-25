@@ -1,7 +1,7 @@
 #ifndef STACKARRAY_H
 #define STACKARRAY_H
 
-#include<Template.h>
+#include "Template.hpp"
 
 const int MAX = 100;
 

@@ -1,7 +1,7 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
-#include<Template.h>
+#include "Template.hpp"
 
 template <typename T>
 class Deque

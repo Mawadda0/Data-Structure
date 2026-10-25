@@ -1,7 +1,7 @@
 #ifndef QUEUELINEAR_H
 #define QUEUELINEAR_H
 
-#include<Template.h>
+#include "Template.hpp"
 
 #define MAX_SIZE 5
 template <typename T> class  Queue
