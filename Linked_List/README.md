@@ -1,6 +1,6 @@
 # Linked Lists in C++: Singly, Circular, and Doubly
 
-> Three from-scratch implementations of a linked list using raw pointers, `new` and `delete`. All of them are built from nodes that live anywhere in the heap and are connected by pointers, instead of sitting side by side in one block like an array.
+> Three from-scratch implementations of a linked list using raw pointers, `new` and `delete`. All of them are built from nodes that live anywhere in the heap and are connected by pointers, instead of sitting side by side in one block like an array. Each one is a class template, so it can store any type `T`.
 
 ## Table of Contents
 
@@ -16,13 +16,30 @@
 
 ## Files
 
-| File                       | Class                  | Description                                          |
-| -------------------------- | ---------------------- | ---------------------------------------------------- |
-| `LinkedList.h`             | `Linked_List`          | Singly linked list                                   |
-| `Circular_Linked_List.h`   | `Circular_Linked_List` | Singly linked list whose last node points to the head |
-| `Doubly_Linked_List.h`     | `Doubly_Linked_List`   | Every node points to both its next and previous node |
+| File                       | Class                     | Description                                           |
+| -------------------------- | ------------------------- | ----------------------------------------------------- |
+| `LinkedList.h`             | `Linked_List<T>`          | Singly linked list                                    |
+| `Circular_Linked_List.h`   | `Circular_Linked_List<T>` | Singly linked list whose last node points to the head |
+| `Doubly_Linked_List.h`     | `Doubly_Linked_List<T>`   | Every node points to both its next and previous node  |
 
-All three are header-only and store `int` values. **Each header defines its own `Node` class, so include only one of them in the same source file.**
+All three are header-only class templates (`template <typename T>`). The type is chosen when the list is created, and it must always be written:
+
+```cpp
+Linked_List<int> a;
+Linked_List<std::string> b;
+```
+
+**Each header also defines its own `Node<T>` template, so include only one of them in the same source file.**
+
+### What `T` must support
+
+| Needed by | Requirement on `T` |
+| --- | --- |
+| Every list | Default-constructible and copy-assignable (a node first creates `Data`, then assigns the value to it) |
+| Functions that search by value: `AddBefore`, `AddAfter`, `DelAfter`, `DelAtVal`, `DeleteNode`, `DeleteAt`, `FindNode`, `InsertAfter` | `operator==` |
+| `printList` and `PrintList` | `operator<<` for `std::ostream` |
+
+In every function, `val` and `data` are of type `T`, while positions and counts are `int`. Member functions of a class template are compiled only when they are used, so a type without `operator<<` works fine until `printList` is called, and only then does the compiler report an error.
 
 Most functions report problems by printing a message (for example `List Is Empty.` or `Value Isn't Found.`) instead of returning an error code.
 
@@ -33,11 +50,12 @@ Most functions report problems by printing a message (for example `List Is Empty
 A linked list is a chain of **nodes**. Each node holds a value and a pointer to the next node. The list itself only remembers one pointer, `head`, which points to the first node. To reach any other node we must start at `head` and follow the pointers one by one.
 
 ```cpp
+template <typename T>
 class Node
 {
 public:
-    int Data;
-    Node *Next;
+    T Data;
+    Node<T> *Next;
 };
 ```
 
@@ -53,7 +71,7 @@ public:
 | Extra memory per element | None | One or two pointers |
 | CPU cache | Very friendly (neighbors in memory) | Unfriendly (nodes can be far apart) |
 
-The memory cost is easy to see with the padding rules from `05_memory_alignment_and_padding`. On a 64-bit machine a node with an `int` (4 bytes, plus 4 bytes of padding) and one pointer (8 bytes) takes **16 bytes**, four times the size of the `int` it stores. A doubly linked node has two pointers and takes **24 bytes**.
+The memory cost is easy to see with the padding rules from `05_memory_alignment_and_padding`. On a 64-bit machine a `Node<int>` holds an `int` (4 bytes, plus 4 bytes of padding) and one pointer (8 bytes), so it takes **16 bytes**, four times the size of the `int` it stores. A doubly linked node has two pointers and takes **24 bytes**. The pointers add a fixed 8 bytes each, whatever `T` is: a `Node<std::string>` takes 40 bytes in a singly linked list (a 32-byte `std::string` plus a pointer) and 48 bytes in a doubly linked one.
 
 ---
 
@@ -75,7 +93,7 @@ head
 
 int main()
 {
-    Linked_List l;
+    Linked_List<int> l;
     l.AddToTail(10);
     l.AddToTail(20);
     l.AddToHead(5);        // 5 10 20
@@ -84,7 +102,7 @@ int main()
 
     l.DelAtVal(10);        // 5 15 20
     l.printList();
-    cout << l.getCount() << '\n';
+    std::cout << l.getCount() << '\n';
 }
 ```
 
@@ -99,6 +117,32 @@ Node Has Been Deleted.
 
 The last line comes from the destructor, which frees every node and prints a message.
 
+Because the list is a template, the same code works for other types. For example, with `std::string`:
+
+```cpp
+#include <string>
+#include "LinkedList.h"
+
+int main()
+{
+    Linked_List<std::string> names;
+    names.AddToTail("Sara");
+    names.AddToTail("Omar");
+    names.AddToHead("Mona");
+    names.printList();         // Mona Sara Omar
+    names.DelAtVal("Omar");    // Mona Sara
+    names.printList();
+}
+```
+
+Output:
+
+```
+Mona Sara Omar
+Mona Sara
+Node Has Been Deleted.
+```
+
 ### Constructors and destructor
 
 | Function | Description | Time |
@@ -108,7 +152,7 @@ The last line comes from the destructor, which frees every node and prints a mes
 
 ### Functions reference
 
-Let `n` be the number of nodes. Positions are **1-based**. No function allocates extra memory proportional to `n`, so the extra space is O(1) everywhere.
+Let `n` be the number of nodes. Positions are **1-based**. `val` and `data` are of type `T`. No function allocates extra memory proportional to `n`, so the extra space is O(1) everywhere.
 
 **Utilities**
 
@@ -180,7 +224,7 @@ There is no `nullptr` at the end, so the loops change. A normal list walks `whil
 
 int main()
 {
-    Circular_Linked_List c;
+    Circular_Linked_List<int> c;
     c.AddToTail(1);
     c.AddToTail(2);
     c.AddToTail(3);
@@ -248,7 +292,7 @@ null <-[ 0 ]<->[ 1 ]<->[ 2 ]<->[ 3 ]-> null
 
 int main()
 {
-    Doubly_Linked_List d;
+    Doubly_Linked_List<int> d;
     d.AddToTail(1);
     d.AddToTail(2);
     d.AddToTail(3);
@@ -314,7 +358,7 @@ A singly linked list needs a second pointer, `pre`, tracked during the walk, to 
 | | Singly | Circular | Doubly |
 | --- | --- | --- | --- |
 | Pointers per node | 1 | 1 | 2 |
-| Node size (64-bit, `int` data) | 16 bytes | 16 bytes | 24 bytes |
+| Node size (64-bit, `T = int`) | 16 bytes | 16 bytes | 24 bytes |
 | End of the list | `nullptr` | Points back to `head` | `nullptr` at both ends |
 | `AddToHead` | O(1) | O(n) | O(1) |
 | `AddToTail` | O(n) | O(n) | O(n) |
