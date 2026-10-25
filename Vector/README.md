@@ -18,11 +18,13 @@
 
 | File       | Description                           |
 | ---------- | ------------------------------------- |
-| `Vector.h` | The class template, header-only       |
+| `Vector.hpp` | The class template, header-only       |
 | `README.md`| This document                         |
 
+Every header starts with `#include "Template.hpp"`, the shared header of the repository that provides the standard library includes, `using namespace std;` and the `nl` macro (a newline). This is why the examples use `cout` and `string` without the `std::` prefix.
+
 ```cpp
-#include "Vector.h"
+#include "Vector.hpp"
 
 int main()
 {
@@ -103,15 +105,13 @@ cap = 40, size = 20                   ->  half full, plenty of room in both dire
 | Constructor | Signature | What it does | Time |
 | --- | --- | --- | --- |
 | Default | `Vector()` | Creates an empty vector with `size = 0` and `cap = 10` | O(1) |
-| Parametrized | `explicit Vector(int size)` | Creates a vector that already contains `size` elements, all value-initialized (`0` for numbers). Capacity is `size + 10`. A negative size is treated as 0 | O(n) |
+| Parametrized | `Vector(int size)` | Creates a vector that already contains `size` elements, all value-initialized (`0` for numbers). Capacity is `size + 10`. A negative size is treated as 0 | O(n) |
 | Copy | `Vector(const Vector &other)` | Creates a new vector that is a **deep copy** of `other` | O(n) |
 | Destructor | `~Vector()` | Frees the heap memory | O(1) for primitive types, O(n) for types with destructors |
 
 ### Differences between them
 
 **Default vs parametrized.** `Vector<int> a;` is empty (`Size() == 0`), while `Vector<int> b(5);` is not empty. It already has 5 elements, all zeros, and `Size() == 5`, `Cap() == 15`. If you want an empty vector with some room reserved, use the default constructor and `pushBack`.
-
-**Why `explicit`.** It stops the compiler from silently converting an `int` into a `Vector`, for example in `Vector<int> v = 5;` or when passing a number to a function that expects a `Vector`.
 
 **Why the copy constructor matters.** Without it, the compiler generates a copy that copies only the pointer (a **shallow copy**). Then two vectors would point to the same block, changing one would change the other, and when both are destroyed the same memory would be freed twice, which crashes the program. Our copy constructor allocates a new block and copies every element (a **deep copy**), so the two vectors are independent.
 
@@ -261,4 +261,5 @@ The same argument applies to `popBack` with the shrink-at-a-quarter rule.
 - **Deep copies are expensive.** Passing a `Vector` by value copies every element, so prefer `const Vector<T> &` for function parameters.
 - **No move semantics.** There is no move constructor or move assignment, so returning or reassigning large vectors always copies. Adding them is a natural next step (the rule of five).
 - **Elements are default-constructed.** The `new T[cap]()` expression constructs `cap` objects up front, so `T` must have a default constructor, unlike `vector`, which constructs elements only when they are inserted.
+- **The constructor `Vector(int size)` is not `explicit`.** That means `Vector<int> v = 5;` compiles and builds a vector with 5 elements. Marking it `explicit` prevents such accidental conversions.
 - **Single-threaded only.** There is no synchronization.
