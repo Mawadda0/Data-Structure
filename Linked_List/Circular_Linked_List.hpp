@@ -3,13 +3,14 @@
 
 #include "Template.hpp"
 
+template <typename T>
 class Node
 {
 public:
-    int Data;
+    T Data;
     Node *next;
  
-    Node(int val)
+    Node(T val)
     {
         Data = val;
         next = nullptr;
@@ -17,6 +18,7 @@ public:
 };
  
 // Circular singly linked list: the last node points back to head.
+template <typename T>
 class Circular_Linked_List
 {
 private:
@@ -41,7 +43,6 @@ public:
         }
         delete head;
         head = nullptr;
-        cout << "List Has Been Deleted" << '\n';
     }
  
     // ---------- Utilities ----------
@@ -55,7 +56,7 @@ public:
     {
         if(head == nullptr)
         {
-            cout << "List Size Is : 0" << '\n';
+            cout << "List Size Is : 0" << nl;
             return;
         }
         int idx = 1;
@@ -65,7 +66,7 @@ public:
             curr = curr->next;
             idx++;
         }
-        cout << "List Size Is : " << idx << '\n';
+        cout << "List Size Is : " << idx << nl;
     }
  
     void PrintList() const

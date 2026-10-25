@@ -3,14 +3,14 @@
 
 #include "Template.hpp"
 
-
+template <typename T>
 class Node
 {
 public:
-    int Data;
+    T Data;
     Node *Next;
  
-    Node(int val)
+    Node(T val)
     {
         Data = val;
         Next = nullptr;
@@ -18,6 +18,7 @@ public:
 };
  
 // Singly linked list. Positions used by DelAtPos and Update are 1-based.
+template <typename T>
 class Linked_List
 {
 private:
@@ -39,7 +40,6 @@ public:
             delete curr;
             curr = head;
         }
-        cout << "Node Has Been Deleted." << nl;
     }
  
     // ---------- Utilities ----------
@@ -82,14 +82,14 @@ public:
     }
  
     // ---------- Adding ----------
-    void AddToHead(int val)
+    void AddToHead(T val)
     {
         Node *p = new Node(val);
         p->Next = head;
         head = p;
     }
  
-    void AddToTail(int val)
+    void AddToTail(T val)
     {
         Node *p = new Node(val);
         if(head == nullptr)
@@ -108,7 +108,7 @@ public:
     }
  
     // Adds a new node with `data` before the first node whose value is `val`.
-    void AddBefore(int val, int data)
+    void AddBefore(T val, T data)
     {
         if(head == nullptr)
         {
@@ -137,7 +137,7 @@ public:
     }
  
     // Adds a new node with `data` after the first node whose value is `val`.
-    void AddAfter(int val, int data)
+    void AddAfter(T val, T data)
     {
         if(head == nullptr)
         {
@@ -161,7 +161,7 @@ public:
         curr->Next = newNode;
     }
  
-    void AddAtMid(int data)
+    void AddAtMid(T data)
     {
         int n = getCount();
         if(n == 0)
@@ -297,7 +297,7 @@ public:
     }
  
     // Removes the node that comes right after the first node whose value is `val`.
-    void DelAfter(int val)
+    void DelAfter(T val)
     {
         if(head == nullptr)
         {
@@ -330,7 +330,7 @@ public:
     }
  
     // Removes the first node whose value is `val`.
-    void DelAtVal(int val)
+    void DelAtVal(T val)
     {
         if(head == nullptr)
         {
@@ -387,7 +387,7 @@ public:
     }
  
     // ---------- Updating ----------
-    void Update(int pos, int val)
+    void Update(int pos, T val)
     {
         if(head == nullptr)
         {

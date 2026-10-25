@@ -2,14 +2,16 @@
 #define DOUBLYLINKEDLIST_H
 
 #include "Template.hpp"
+
+template <typename T>
 class Node
 {
 public:
-    int Data;
+    T Data;
     Node *next;
     Node *prev;
  
-    Node(int val)
+    Node(T val)
     {
         Data = val;
         next = nullptr;
@@ -19,6 +21,7 @@ public:
  
 // Doubly linked list: every node knows both its next and its previous node.
 // FindNode reports positions as 1-based.
+template <typename T>
 class Doubly_Linked_List
 {
 private:
@@ -44,7 +47,6 @@ public:
             delete head;
             head = nullptr;
         }
-        cout << "Node Has Been Deleted." << '\n';
     }
  
     // ---------- Utilities ----------
@@ -54,11 +56,11 @@ public:
         else return false;
     }
  
-    void FindNode(int val) const
+    void FindNode(T val) const
     {
         if(head == nullptr)
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         int idx = 1;
@@ -67,20 +69,20 @@ public:
         {
             if(curr->Data == val)
             {
-                cout << "Value Is Found, Value's Position Is : " << idx << '\n';
+                cout << "Value Is Found, Value's Position Is : " << idx << nl;
                 return;
             }
             else idx++;
             curr = curr->next;
         }
-        cout << "Value Isn't Found." << '\n';
+        cout << "Value Isn't Found." << nl;
     }
  
     void printList() const
     {
         if(head == nullptr)
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         Node *curr = head;
@@ -89,11 +91,11 @@ public:
             cout << curr->Data << " ";
             curr = curr->next;
         }
-        cout << '\n';
+        cout << nl;
     }
  
     // ---------- Adding ----------
-    void AddToHead(int val)
+    void AddToHead(T val)
     {
         Node *p = new Node(val);
         if(!IsEmpty()) head->prev = p;
@@ -102,7 +104,7 @@ public:
         head = p;
     }
  
-    void AddToTail(int val)
+    void AddToTail(T val)
     {
         Node *p = new Node(val);
         p->next = nullptr;
@@ -122,11 +124,11 @@ public:
     }
  
     // Adds a new node with `data` after the first node whose value is `val`.
-    void InsertAfter(int val, int data)
+    void InsertAfter(T val, T data)
     {
         if(IsEmpty())
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         Node *curr = head;
@@ -136,7 +138,7 @@ public:
             {
                 AddToTail(data);
             }
-            else cout << "Value Isn't Found" << '\n';
+            else cout << "Value Isn't Found" << nl;
             return;
         }
         while(curr != nullptr && curr->Data != val)
@@ -145,7 +147,7 @@ public:
         }
         if(curr == nullptr)
         {
-            cout << "Value Isn't Found" << '\n';
+            cout << "Value Isn't Found" << nl;
             return;
         }
         if(curr->next == nullptr)
@@ -165,7 +167,7 @@ public:
     {
         if(IsEmpty())
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         if(head->next == nullptr)
@@ -183,7 +185,7 @@ public:
     {
         if(IsEmpty())
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         if(head->next == nullptr)
@@ -203,11 +205,11 @@ public:
     }
  
     // Removes the first node whose value is `val`.
-    void DeleteAt(int val)
+    void DeleteAt(T val)
     {
         if(IsEmpty())
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         if(head->next == nullptr)
@@ -219,7 +221,7 @@ public:
             }
             else
             {
-                cout << "Value Isn't Found." << '\n';
+                cout << "Value Isn't Found." << nl;
             }
             return;
         }
@@ -230,7 +232,7 @@ public:
         }
         if(curr == nullptr)
         {
-            cout << "Value Isn't Found" << '\n';
+            cout << "Value Isn't Found" << nl;
             return;
         }
         if(curr == head)
@@ -254,7 +256,7 @@ public:
     {
         if(IsEmpty())
         {
-            cout << "List Is Empty." << '\n';
+            cout << "List Is Empty." << nl;
             return;
         }
         if(head->next == nullptr) return;
