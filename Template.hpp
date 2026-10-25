@@ -7,8 +7,3 @@ using namespace std;
 #define sz(x) (int)(x.size())
 #define all(v) v.begin(), v.end()
 #define ll long long
-
-int main()
-{
-    return 0;    
-}
