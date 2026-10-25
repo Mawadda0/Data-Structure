@@ -19,11 +19,13 @@
 
 | File                    | Class              | Description                                              |
 | ----------------------- | ------------------ | -------------------------------------------------------- |
-| `Queue_Linear.h`        | `Queue<T>`         | Array queue where `front` and `rear` only move forward (capacity 5) |
-| `Queue_Circular.h`      | `CircularQueue<T>` | Array queue where `front` and `rear` wrap around (capacity 4)       |
-| `Queue_Linked_List.h`   | `Queue<T>`         | Queue stored as a linked list, no capacity limit                    |
+| `Queue_Linear.hpp`        | `Queue<T>`         | Array queue where `front` and `rear` only move forward (capacity 5) |
+| `Queue_Circular.hpp`      | `CircularQueue<T>` | Array queue where `front` and `rear` wrap around (capacity 4)       |
+| `Queue_Linked_List.hpp`   | `Queue<T>`         | Queue stored as a linked list, no capacity limit                    |
 
-All three are header-only templates. The capacity of the two array queues is a constant named `MAX_SIZE` inside the class. **`Queue_Linear.h` and `Queue_Linked_List.h` both define a class named `Queue`, so include only one of them in the same source file.**
+All three are header-only templates. The capacity of the two array queues is a constant named `MAX_SIZE` inside the class. **`Queue_Linear.hpp` and `Queue_Linked_List.hpp` both define a class named `Queue`, so include only one of them in the same source file.**
+
+Every header starts with `#include "Template.hpp"`, the shared header of the repository that provides the standard library includes, `using namespace std;` and the `nl` macro (a newline). This is why the examples use `cout` and `string` without the `std::` prefix.
 
 ---
 
@@ -53,7 +55,7 @@ Adding to a full array queue prints a message and does nothing:
 Queue is full (overflow)
 ```
 
-Removing from or peeking at an empty queue **throws** a string literal, so it must be caught as `const char *`:
+Removing from or peeking at an empty queue **throws** a string literal, so it must be caught as `const char *`. The messages (`The queue is empty (Underflow)` and `Queue is empty (Underflow)`) already end with a newline:
 
 ```cpp
 try
@@ -62,7 +64,7 @@ try
 }
 catch(const char *msg)
 {
-    cout << msg << '\n';   // Queue is empty (Underflow)
+    cout << msg;   // Queue is empty (Underflow)
 }
 ```
 
@@ -108,7 +110,7 @@ This is the reason the circular queue exists.
 ### Usage
 
 ```cpp
-#include "Queue_Linear.h"
+#include "Queue_Linear.hpp"
 
 int main()
 {
@@ -175,7 +177,7 @@ order from front:  3 -> 4 -> 5 -> 6
 ### Usage
 
 ```cpp
-#include "Queue_Circular.h"
+#include "Queue_Circular.hpp"
 
 int main()
 {
@@ -235,7 +237,7 @@ head (front)                        tail (rear)
 ### Usage
 
 ```cpp
-#include "Queue_Linked_List.h"
+#include "Queue_Linked_List.hpp"
 
 int main()
 {
@@ -254,7 +256,7 @@ int main()
     }
     catch(const char *msg)
     {
-        cout << msg << '\n';
+        cout << msg;
     }
 }
 ```
@@ -303,13 +305,13 @@ When the maximum number of elements is known, the circular queue is the best cho
 
 These are confirmed behaviors of the current code.
 
-**`Queue_Linear.h` and `Queue_Circular.h`**
+**`Queue_Linear.hpp` and `Queue_Circular.hpp`**
 
 - **`enqueue`, `dequeue` and `peek` use `int`, not `T`.** The array holds `T`, but the functions take and return `int`, so any other element type is converted. For example, `Queue<double>` followed by `enqueue(2.75)` stores and prints `2`. Using `T` in those signatures fixes it.
-- **`dequeueN` prints `Removed: ` before the underflow message.** The output expression starts printing before `dequeue()` throws, so the last line reads `Removed: The queue is empty (Underflow)`.
+- **`dequeueN` prints `Removed: ` before the underflow message.** The output expression starts printing before `dequeue()` throws, so the last line reads `Removed: The queue is empty (Underflow)`, followed by an empty line (the message already ends with a newline, and `dequeueN` prints another one).
 - **The capacities are tiny** (5 and 4) because they are meant for demonstration.
 
-**`Queue_Linked_List.h`**
+**`Queue_Linked_List.hpp`**
 
 - **No copy constructor and no copy assignment.** Copying a queue copies only the `head` and `tail` pointers, so both queues point to the same nodes and both destructors delete them (a double free). Pass queues by reference and never copy them.
 - **Elements are default-initialized, not constructed with the value.** `enqueue` creates the node with `new Node<T>()` and then assigns `data`, so `T` must be default-constructible and assignable.
