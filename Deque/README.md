@@ -21,11 +21,13 @@
 
 | File        | Description                     |
 | ----------- | ------------------------------- |
-| `Deque.h`   | The class template, header-only |
+| `Deque.hpp`   | The class template, header-only |
 | `README.md` | This document                   |
 
+Every header starts with `#include "Template.hpp"`, the shared header of the repository that provides the standard library includes, `using namespace std;` and the `nl` macro (a newline). This is why the examples use `cout` and `string` without the `std::` prefix.
+
 ```cpp
-#include "Deque.h"
+#include "Deque.hpp"
 
 int main()
 {
