@@ -5,13 +5,14 @@
 
 // Stack with a fixed capacity, stored in an array.
 // Search reports the index counted from the bottom of the stack (0-based).
+template <typename T>
 class Stack
 {
 private:
     static constexpr int MAX = 100;
  
     int top;
-    int arr[MAX];
+    T arr[MAX];
  
 public:
     // ---------- Constructor ----------
@@ -26,11 +27,11 @@ public:
         return top == -1;
     }
  
-    void Search(int val) const
+    void Search(T val) const
     {
         if(IsEmpty())
         {
-            cout << "Stack Is Empty." << '\n';
+            cout << "Stack Is Empty." << nl;
             return;
         }
         int i;
@@ -38,13 +39,13 @@ public:
         {
             if(arr[i] == val)
             {
-                cout << "Value found at position : " << i << '\n';
+                cout << "Value found at position : " << i << nl;
                 return;
             }
         }
         if(i == 0 && arr[i] != val)
         {
-            cout << "Value isn't found" << '\n';
+            cout << "Value isn't found" << nl;
             return;
         }
     }
@@ -53,44 +54,44 @@ public:
     {
         if(IsEmpty())
         {
-            cout << "Stack Is Empty." << '\n';
+            cout << "Stack Is Empty." << nl;
             return;
         }
         for(int i = top; i >= 0; i--) cout << arr[i] << " ";
-        cout << '\n';
+        cout << nl;
     }
  
     // ---------- Stack operations ----------
-    void Push(int val)
+    void Push(T val)
     {
         if(top == MAX - 1)
         {
-            cout << "Stack Overflow." << '\n';
+            cout << "Stack Overflow." << nl;
             return;
         }
         arr[++top] = val;
     }
  
-    void Pop()
+    T Pop()
     {
         if(IsEmpty())
         {
-            cout << "Stack UnderFlow." << '\n';
+            cout << "Stack UnderFlow." << nl;
             return;
         }
-        int x = arr[top];
+        T x = arr[top];
         top--;
-        cout << "Poped Element Is : " << x << '\n';
+        return x;
     }
  
-    void Peek() const
+    T Peek() const
     {
         if(IsEmpty())
         {
-            cout << "Stack Underflow." << '\n';
+            cout << "Stack Underflow." << nl;
             return;
         }
-        cout << "Top Element Is: " << arr[top] << '\n';
+        return arr[top];
     }
 };
 

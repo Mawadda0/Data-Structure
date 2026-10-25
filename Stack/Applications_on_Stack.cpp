@@ -1,5 +1,4 @@
-#include "Template.hpp"
-#include <S
+#include "Stack_Array.hpp"
 // ---------- Applications ----------
 string Reverse(string s)
 {

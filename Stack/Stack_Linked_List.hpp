@@ -3,6 +3,8 @@
 
 #include "Template.hpp"
 
+template <typename T>
+
 class Node
 {
 public:
@@ -12,6 +14,7 @@ public:
  
 // Stack stored as a singly linked list: head is the top of the stack.
 // Search reports the position counted from the top of the stack (1-based).
+template <typename T>
 class Stack
 {
 private:
@@ -41,11 +44,11 @@ public:
         return head == nullptr;
     }
  
-    void Search(int val) const
+    void Search(T val) const
     {
         if(isEmpty())
         {
-            cout << "Stack is empty." << '\n';
+            cout << "Stack is empty." << nl;
             return;
         }
         Node *curr = head;
@@ -54,7 +57,7 @@ public:
         {
             if(curr->data == val)
             {
-                cout << "Value found in position : " << pos << '\n';
+                cout << "Value found in position : " << pos << nl;
                 return;
             }
             pos++;
@@ -62,7 +65,7 @@ public:
         }
         if(curr == nullptr)
         {
-            cout << "Value isn't found" << '\n';
+            cout << "Value isn't found" << nl;
             return;
         }
     }
@@ -71,7 +74,7 @@ public:
     {
         if(isEmpty())
         {
-            cout << "Stack Is Empty." << '\n';
+            cout << "Stack Is Empty." << nl;
             return;
         }
         Node *curr = head;
@@ -80,11 +83,11 @@ public:
             cout << curr->data << " ";
             curr = curr->next;
         }
-        cout << '\n';
+        cout << nl;
     }
  
     // ---------- Stack operations ----------
-    void Push(int value)
+    void Push(T value)
     {
         Node *p = new Node;
         p->data = value;
@@ -96,24 +99,24 @@ public:
     {
         if(isEmpty())
         {
-            cout << "Stack Underflow." << '\n';
+            cout << "Stack Underflow." << nl;
             return;
         }
         Node *temp = head;
         head = head->next;
-        int value = temp->data;
+        T value = temp->data;
         delete temp;
-        cout << "Poped Element Is : " << value << '\n';
+        cout << "Poped Element Is : " << value << nl;
     }
  
     void Peek() const
     {
         if(isEmpty())
         {
-            cout << "Stack Underflow." << '\n';
+            cout << "Stack Underflow." << nl;
             return;
         }
-        cout << "Top Element Is : " << head->data << '\n';
+        cout << "Top Element Is : " << head->data << nl;
     }
 };
 
