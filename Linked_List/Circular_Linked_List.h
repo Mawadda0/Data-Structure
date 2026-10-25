@@ -8,51 +8,106 @@ class Node
 public:
     int Data;
     Node *next;
-
+ 
     Node(int val)
     {
         Data = val;
-        next = NULL;
+        next = nullptr;
     }
 };
-
+ 
+// Circular singly linked list: the last node points back to head.
 class Circular_Linked_List
 {
+private:
     Node *head;
+ 
 public:
+    // ---------- Constructors and destructor ----------
     Circular_Linked_List()
     {
-        head = NULL;
+        head = nullptr;
     }
-
-    bool IsEmpty()
+ 
+    ~Circular_Linked_List()
     {
-        if(head == NULL) return true;
+        Node *curr = head->next;
+        Node *n = curr->next;
+        while(curr != head)
+        {
+            n = curr->next;
+            delete curr;
+            curr = n;
+        }
+        delete head;
+        head = nullptr;
+        std::cout << "List Has Been Deleted" << '\n';
+    }
+ 
+    // ---------- Utilities ----------
+    bool IsEmpty() const
+    {
+        if(head == nullptr) return true;
         else return false;
     }
-    //---
+ 
+    void getCount() const
+    {
+        if(head == nullptr)
+        {
+            std::cout << "List Size Is : 0" << '\n';
+            return;
+        }
+        int idx = 1;
+        Node *curr = head->next;
+        while(curr != head)
+        {
+            curr = curr->next;
+            idx++;
+        }
+        std::cout << "List Size Is : " << idx << '\n';
+    }
+ 
+    void PrintList() const
+    {
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        std::cout << head->Data;
+        Node *curr = head->next;
+        while(curr != head)
+        {
+            std::cout << " " << curr->Data;
+            curr = curr->next;
+        }
+        std::cout << '\n';
+    }
+ 
+    // ---------- Adding ----------
     void AddToHead(int val)
     {
         Node *n = new Node(val);
-        if(head == NULL)
+        if(head == nullptr)
         {
             n->next = n;
-            head = n;    
+            head = n;
         }
         n->next = head;
         Node *curr = head;
         while(curr->next != head)
         {
-            curr = curr->next;    
+            curr = curr->next;
         }
         curr->next = n;
         head = n;
     }
-    //---
+ 
     void AddToTail(int val)
     {
         Node *n = new Node(val);
-        if(head == NULL)
+        if(head == nullptr)
         {
             n->next = n;
             head = n;
@@ -64,32 +119,49 @@ public:
         }
         curr->next = n;
         n->next = head;
-
     }
-    //---
-    void getCount()
+ 
+    // Adds a new node with `data` after the first node whose value is `val`.
+    void InsertAfter(int val, int data)
     {
-        if(head == NULL)
+        if(IsEmpty())
         {
-            return void(cout << "List Size Is : 0" << nl);    
+            std::cout << "List Is Empty." << '\n';
+            return;
         }
-        int idx = 1;
+        Node *no = new Node(data);
+        if(head->Data == val)
+        {
+            no->next = head->next;
+            head->next = no;
+            return;
+        }
         Node *curr = head->next;
-        while(curr != head)
+        while(curr != head && curr->Data != val)
         {
             curr = curr->next;
-            idx++;
         }
-        cout << "List Size Is : " << idx << nl;
+        if(curr == head)
+        {
+            std::cout << "Value Isn't Found." << '\n';
+            return;
+        }
+        no->next = curr->next;
+        curr->next = no;
     }
-    //---
+ 
+    // ---------- Removing ----------
     void DeleteFromHead()
     {
-        if(IsEmpty()) return void(cout << "List Is Empty." << nl);
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
         if(head->next == head)
         {
             delete head;
-            head = NULL;
+            head = nullptr;
             return;
         }
         Node *curr = head;
@@ -101,16 +173,20 @@ public:
         }
         last->next = head;
         delete curr;
-        curr = NULL;
+        curr = nullptr;
     }
-    //---
+ 
     void DeleteFromTail()
     {
-        if(IsEmpty()) return void(cout << "List Is Empty." << nl);
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
         if(head->next == head)
         {
             delete head;
-            head = NULL;
+            head = nullptr;
             return;
         }
         Node *curr = head;
@@ -121,20 +197,26 @@ public:
         delete curr->next;
         curr->next = head;
     }
-    //---
+ 
+    // Removes the first node whose value is `val`.
     void DeleteNode(int val)
     {
-        if(IsEmpty()) return void(cout << "List Is Empty." << nl);
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
         if(head->next == head)
         {
             if(val == head->Data)
             {
                 delete head;
-                head = NULL;
+                head = nullptr;
                 return;
-            }else
+            }
+            else
             {
-                cout << "Value Isn't Found." << nl;
+                std::cout << "Value Isn't Found." << '\n';
                 return;
             }
         }
@@ -152,66 +234,11 @@ public:
         }
         if(curr == head)
         {
-            cout << "Value Isn't Found." << nl;
+            std::cout << "Value Isn't Found." << '\n';
             return;
         }
         pre->next = curr->next;
         delete curr;
-    }
-    //---
-    void InsertAfter(int val, int data)
-    {
-        if(IsEmpty()) return void(cout << "List Is Empty." << nl);
-        Node *no = new Node(data);
-        if(head->Data == val)
-        {
-            no->next = head->next;
-            head->next = no;
-            return;
-        }
-        Node *curr = head->next;
-        while(curr != head && curr->Data != val)
-        {
-            curr = curr->next;
-        }
-        if(curr == head)
-        {
-            cout << "Value Isn't Found." << nl;
-            return;
-        }
-        no->next = curr->next;
-        curr->next = no;
-    }
-    //---
-    void PrintList()
-    {
-        if(IsEmpty())
-        {
-            return void(cout << "List Is Empty." << nl);
-        }
-        cout << head->Data;
-        Node *curr = head->next;
-        while(curr != head)
-        {
-            cout << " " << curr->Data;
-            curr = curr->next;
-        }
-        cout << nl;
-    }
-    //---
-    ~Circular_Linked_List()
-    {
-        Node *curr = head->next;
-        Node *n = curr->next;
-        while(curr != head)
-        {
-            n = curr->next;
-            delete curr;
-            curr = n;   
-        }
-        delete head;
-        head = NULL;
-        cout << "List Has Been Deleted" << nl;
     }
 };
 

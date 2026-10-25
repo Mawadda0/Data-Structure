@@ -2,193 +2,153 @@
 #define DOUBLYLINKEDLIST_H
 
 #include "Template.hpp"
-
 class Node
 {
 public:
     int Data;
     Node *next;
     Node *prev;
-
+ 
     Node(int val)
     {
         Data = val;
-        next = NULL;
-        prev = NULL;
+        next = nullptr;
+        prev = nullptr;
     }
 };
-
+ 
+// Doubly linked list: every node knows both its next and its previous node.
+// FindNode reports positions as 1-based.
 class Doubly_Linked_List
 {
+private:
     Node *head;
-     
+ 
 public:
+    // ---------- Constructors and destructor ----------
     Doubly_Linked_List()
     {
-        head = NULL;
+        head = nullptr;
     }
-    bool IsEmpty()
+ 
+    ~Doubly_Linked_List()
     {
-        if(head == NULL) return true;
+        if(!IsEmpty())
+        {
+            while(head->next != nullptr)
+            {
+                head = head->next;
+                delete head->prev;
+                head->prev = nullptr;
+            }
+            delete head;
+            head = nullptr;
+        }
+        std::cout << "Node Has Been Deleted." << '\n';
+    }
+ 
+    // ---------- Utilities ----------
+    bool IsEmpty() const
+    {
+        if(head == nullptr) return true;
         else return false;
     }
-    //---
+ 
+    void FindNode(int val) const
+    {
+        if(head == nullptr)
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        int idx = 1;
+        Node *curr = head;
+        while(curr != nullptr)
+        {
+            if(curr->Data == val)
+            {
+                std::cout << "Value Is Found, Value's Position Is : " << idx << '\n';
+                return;
+            }
+            else idx++;
+            curr = curr->next;
+        }
+        std::cout << "Value Isn't Found." << '\n';
+    }
+ 
+    void printList() const
+    {
+        if(head == nullptr)
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        Node *curr = head;
+        while(curr != nullptr)
+        {
+            std::cout << curr->Data << " ";
+            curr = curr->next;
+        }
+        std::cout << '\n';
+    }
+ 
+    // ---------- Adding ----------
     void AddToHead(int val)
     {
         Node *p = new Node(val);
         if(!IsEmpty()) head->prev = p;
-        p->prev = NULL;
+        p->prev = nullptr;
         p->next = head;
         head = p;
     }
-    //---
+ 
     void AddToTail(int val)
     {
         Node *p = new Node(val);
-        p->next = NULL;
+        p->next = nullptr;
         if(IsEmpty())
         {
-            p->prev = NULL;
+            p->prev = nullptr;
             head = p;
             return;
         }
         Node *curr = head;
-        while(curr->next != NULL)
+        while(curr->next != nullptr)
         {
             curr = curr->next;
         }
         p->prev = curr;
         curr->next = p;
     }
-    //---
-    void DeleteFromHead()
-    {
-        if(IsEmpty())
-        {
-            return void(cout << "List Is Empty." << nl);
-        }
-        if(head->next == NULL)
-        {
-                delete head;
-                head = NULL;
-                return;
-        }
-        head = head->next;
-        delete head->prev;
-        head->prev = NULL;
-    }
-    //---
-    void DeleteFromTail()
-    {
-        if(IsEmpty())
-        {
-                return void(cout << "List Is Empty." << nl);
-        }
-        if(head->next == NULL)
-        {
-                delete head;
-                head = NULL;
-                return;
-        }
-        Node *curr = head;
-        while(curr->next != NULL)
-        {
-                curr = curr->next;
-        }
-        curr->prev->next = NULL;
-        delete curr;
-        curr = NULL;
-    }
-    //---
-    void DeleteAt(int val)
-    {
-        if(IsEmpty())
-        {
-            return void(cout << "List Is Empty." << nl);
-        }
-        if(head->next == NULL)
-        {
-            if(head->Data == val)
-            {
-                delete head;
-                head = NULL;
-            }
-            else
-            {
-                cout << "Value Isn't Found." << nl;
-            }
-            return;
-        }
-        Node *curr = head;
-        while(curr != NULL && curr->Data != val)
-        {
-            curr = curr->next;
-        }
-        if(curr == NULL)
-        {
-            return void(cout << "Value Isn't Found" << nl);
-        }
-        if(curr == head)
-        {
-            DeleteFromHead();
-            return;  
-        }
-        if(curr->next == NULL)
-        {
-            DeleteFromTail();
-            return;
-        }
-        curr->prev->next = curr->next;
-        curr->next->prev = curr->prev;
-        delete curr;
-        curr = NULL;
-    }
-    //---
-    void FindNode(int val) // based 1.
-    {
-        if(head == NULL)
-        {
-            return void(cout << "List Is Empty." << nl);
-        }
-        int idx = 1;
-        Node *curr = head;
-        while(curr != NULL)
-        {
-            if(curr->Data == val)
-            {
-                cout << "Value Is Found, Value's Position Is : " << idx << nl;
-                return;
-            }else idx++;
-            curr = curr->next;
-        }
-        cout << "Value Isn't Found." << nl;
-    }
-    //---
+ 
+    // Adds a new node with `data` after the first node whose value is `val`.
     void InsertAfter(int val, int data)
     {
         if(IsEmpty())
         {
-            return void(cout << "List Is Empty." << nl);    
+            std::cout << "List Is Empty." << '\n';
+            return;
         }
         Node *curr = head;
-        if(curr->next == NULL)
+        if(curr->next == nullptr)
         {
             if(curr->Data == val)
             {
                 AddToTail(data);
             }
-            else cout << "Value Isn't Found" << nl;
+            else std::cout << "Value Isn't Found" << '\n';
             return;
         }
-        while(curr != NULL && curr->Data != val)
+        while(curr != nullptr && curr->Data != val)
         {
             curr = curr->next;
         }
-        if(curr == NULL)
+        if(curr == nullptr)
         {
-            return void(cout << "Value Isn't Found" << nl);
+            std::cout << "Value Isn't Found" << '\n';
+            return;
         }
-        if(curr->next == NULL)
+        if(curr->next == nullptr)
         {
             AddToTail(data);
             return;
@@ -199,55 +159,115 @@ public:
         n->prev = curr;
         curr->next = n;
     }
-    //---
+ 
+    // ---------- Removing ----------
+    void DeleteFromHead()
+    {
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        if(head->next == nullptr)
+        {
+            delete head;
+            head = nullptr;
+            return;
+        }
+        head = head->next;
+        delete head->prev;
+        head->prev = nullptr;
+    }
+ 
+    void DeleteFromTail()
+    {
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        if(head->next == nullptr)
+        {
+            delete head;
+            head = nullptr;
+            return;
+        }
+        Node *curr = head;
+        while(curr->next != nullptr)
+        {
+            curr = curr->next;
+        }
+        curr->prev->next = nullptr;
+        delete curr;
+        curr = nullptr;
+    }
+ 
+    // Removes the first node whose value is `val`.
+    void DeleteAt(int val)
+    {
+        if(IsEmpty())
+        {
+            std::cout << "List Is Empty." << '\n';
+            return;
+        }
+        if(head->next == nullptr)
+        {
+            if(head->Data == val)
+            {
+                delete head;
+                head = nullptr;
+            }
+            else
+            {
+                std::cout << "Value Isn't Found." << '\n';
+            }
+            return;
+        }
+        Node *curr = head;
+        while(curr != nullptr && curr->Data != val)
+        {
+            curr = curr->next;
+        }
+        if(curr == nullptr)
+        {
+            std::cout << "Value Isn't Found" << '\n';
+            return;
+        }
+        if(curr == head)
+        {
+            DeleteFromHead();
+            return;
+        }
+        if(curr->next == nullptr)
+        {
+            DeleteFromTail();
+            return;
+        }
+        curr->prev->next = curr->next;
+        curr->next->prev = curr->prev;
+        delete curr;
+        curr = nullptr;
+    }
+ 
+    // ---------- Reordering ----------
     void reverse()
     {
         if(IsEmpty())
         {
-            return void(cout << "List Is Empty." << nl);    
+            std::cout << "List Is Empty." << '\n';
+            return;
         }
-        if(head->next == NULL) return;
+        if(head->next == nullptr) return;
         Node *curr = head;
-        Node *temp = NULL;
-        while (curr != NULL)
+        Node *temp = nullptr;
+        while(curr != nullptr)
         {
             temp = curr->next; // old next
             curr->next = curr->prev;
             curr->prev = temp;
             curr = temp;
         }
-        if(temp != NULL) head = temp->prev;
-    }
-    //---
-    void printList()
-    {
-        if(head == NULL)
-        {
-            return void(cout << "List Is Empty." << nl);
-        }
-        Node *curr = head;
-        while(curr != NULL)
-        {
-            cout << curr->Data << " ";
-            curr = curr->next;
-        }
-        cout << nl;
-    }
-    //---
-    ~Doubly_Linked_List()
-    {
-        if(!IsEmpty())
-        {
-            while(head->next != NULL)
-            {
-                head = head->next;
-                delete head->prev;
-                head->prev = NULL;
-            }
-            delete head;
-            head = NULL;
-        }
-        cout << "Node Has Been Deleted." << nl;
+        if(temp != nullptr) head = temp->prev;
     }
 };
 
