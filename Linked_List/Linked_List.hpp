@@ -8,7 +8,7 @@ class Node
 {
 public:
     T Data;
-    Node *Next;
+    Node<T> *Next;
  
     Node(T val)
     {
@@ -22,7 +22,7 @@ template <typename T>
 class Linked_List
 {
 private:
-    Node *head;
+    Node<T> *head;
  
 public:
     // ---------- Constructors and destructor ----------
@@ -33,7 +33,7 @@ public:
  
     ~Linked_List()
     {
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr)
         {
             head = head->Next;
@@ -56,7 +56,7 @@ public:
             return 0;
         }
         int c = 0;
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr)
         {
             c++;
@@ -72,7 +72,7 @@ public:
             cout << "List Is Empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr)
         {
             cout << curr->Data << " ";
@@ -84,21 +84,21 @@ public:
     // ---------- Adding ----------
     void AddToHead(T val)
     {
-        Node *p = new Node(val);
+        Node<T> *p = new Node<T>(val);
         p->Next = head;
         head = p;
     }
  
     void AddToTail(T val)
     {
-        Node *p = new Node(val);
+        Node<T> *p = new Node<T>(val);
         if(head == nullptr)
         {
             head = p;
         }
         else
         {
-            Node *curr = head;
+            Node<T> *curr = head;
             while(curr->Next != nullptr)
             {
                 curr = curr->Next;
@@ -120,8 +120,8 @@ public:
             AddToHead(data);
             return;
         }
-        Node *newNode = new Node(data);
-        Node *curr = head;
+        Node<T> *newNode = new Node<T>(data);
+        Node<T> *curr = head;
         while(curr->Next != nullptr && curr->Next->Data != val)
         {
             curr = curr->Next;
@@ -144,7 +144,7 @@ public:
             cout << "List Is Empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr && curr->Data != val)
         {
             curr = curr->Next;
@@ -156,7 +156,7 @@ public:
             return;
         }
  
-        Node *newNode = new Node(data);
+        Node<T> *newNode = new Node<T>(data);
         newNode->Next = curr->Next;
         curr->Next = newNode;
     }
@@ -166,13 +166,13 @@ public:
         int n = getCount();
         if(n == 0)
         {
-            head = new Node(data);
+            head = new Node<T>(data);
             return;
         }
  
         int mid_idx = (n + 1) / 2;
  
-        Node *newNode = new Node(data);
+        Node<T> *newNode = new Node<T>(data);
         if(mid_idx == 1)
         {
             newNode->Next = head;
@@ -180,7 +180,7 @@ public:
             return;
         }
  
-        Node *curr = head;
+        Node<T> *curr = head;
         for(int i = 1; curr != nullptr && i < mid_idx - 1; i++)
         {
             curr = curr->Next;
@@ -197,7 +197,7 @@ public:
             cout << "List Is Empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         head = head->Next;
         delete curr;
         curr = nullptr;
@@ -218,8 +218,8 @@ public:
         }
         else
         {
-            Node *pre = nullptr;
-            Node *curr = head;
+            Node<T> *pre = nullptr;
+            Node<T> *curr = head;
             while(curr->Next != nullptr)
             {
                 pre = curr;
@@ -245,7 +245,7 @@ public:
         }
         else
         {
-            Node *curr = head;
+            Node<T> *curr = head;
             while(curr->Next->Next != nullptr)
             {
                 curr = curr->Next;
@@ -269,15 +269,15 @@ public:
         }
         if(pos == 1)
         {
-            Node *x = head;
+            Node<T> *x = head;
             head = head->Next;
             delete x;
             x = nullptr;
             return;
         }
  
-        Node *curr = head;
-        Node *prev = nullptr;
+        Node<T> *curr = head;
+        Node<T> *prev = nullptr;
         int idx = 1;
         while(curr != nullptr && idx < pos)
         {
@@ -305,7 +305,7 @@ public:
             return;
         }
  
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr != nullptr && curr->Data != val)
         {
             curr = curr->Next;
@@ -323,7 +323,7 @@ public:
             return;
         }
  
-        Node *x = curr->Next;
+        Node<T> *x = curr->Next;
         curr->Next = x->Next;
         delete x;
         x = nullptr;
@@ -339,13 +339,13 @@ public:
         }
         if(head->Data == val)
         {
-            Node *x = head;
+            Node<T> *x = head;
             head = head->Next;
             delete x;
             x = nullptr;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr->Next != nullptr && curr->Next->Data != val)
         {
             curr = curr->Next;
@@ -357,7 +357,7 @@ public:
             return;
         }
  
-        Node *x = curr->Next;
+        Node<T> *x = curr->Next;
         curr->Next = x->Next;
         delete x;
         x = nullptr;
@@ -394,7 +394,7 @@ public:
             cout << "List Is Empty." << nl;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         int idx = 1;
         while(curr != nullptr && idx < pos)
         {

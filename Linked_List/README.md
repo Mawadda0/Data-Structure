@@ -18,18 +18,20 @@
 
 | File                       | Class                     | Description                                           |
 | -------------------------- | ------------------------- | ----------------------------------------------------- |
-| `LinkedList.h`             | `Linked_List<T>`          | Singly linked list                                    |
-| `Circular_Linked_List.h`   | `Circular_Linked_List<T>` | Singly linked list whose last node points to the head |
-| `Doubly_Linked_List.h`     | `Doubly_Linked_List<T>`   | Every node points to both its next and previous node  |
+| `Linked_List.hpp`             | `Linked_List<T>`          | Singly linked list                                    |
+| `Circular_Linked_List.hpp`   | `Circular_Linked_List<T>` | Singly linked list whose last node points to the head |
+| `Doubly_Linked_List.hpp`     | `Doubly_Linked_List<T>`   | Every node points to both its next and previous node  |
 
 All three are header-only class templates (`template <typename T>`). The type is chosen when the list is created, and it must always be written:
 
 ```cpp
 Linked_List<int> a;
-Linked_List<std::string> b;
+Linked_List<string> b;
 ```
 
 **Each header also defines its own `Node<T>` template, so include only one of them in the same source file.**
+
+Every header starts with `#include "Template.hpp"`, the shared header of the repository that provides the standard library includes, `using namespace std;` and the `nl` macro (a newline). This is why the examples use `cout` and `string` without the `std::` prefix.
 
 ### What `T` must support
 
@@ -37,7 +39,7 @@ Linked_List<std::string> b;
 | --- | --- |
 | Every list | Default-constructible and copy-assignable (a node first creates `Data`, then assigns the value to it) |
 | Functions that search by value: `AddBefore`, `AddAfter`, `DelAfter`, `DelAtVal`, `DeleteNode`, `DeleteAt`, `FindNode`, `InsertAfter` | `operator==` |
-| `printList` and `PrintList` | `operator<<` for `std::ostream` |
+| `printList` and `PrintList` | `operator<<` for `ostream` |
 
 In every function, `val` and `data` are of type `T`, while positions and counts are `int`. Member functions of a class template are compiled only when they are used, so a type without `operator<<` works fine until `printList` is called, and only then does the compiler report an error.
 
@@ -71,7 +73,7 @@ public:
 | Extra memory per element | None | One or two pointers |
 | CPU cache | Very friendly (neighbors in memory) | Unfriendly (nodes can be far apart) |
 
-The memory cost is easy to see with the padding rules from `05_memory_alignment_and_padding`. On a 64-bit machine a `Node<int>` holds an `int` (4 bytes, plus 4 bytes of padding) and one pointer (8 bytes), so it takes **16 bytes**, four times the size of the `int` it stores. A doubly linked node has two pointers and takes **24 bytes**. The pointers add a fixed 8 bytes each, whatever `T` is: a `Node<std::string>` takes 40 bytes in a singly linked list (a 32-byte `std::string` plus a pointer) and 48 bytes in a doubly linked one.
+The memory cost is easy to see with the padding rules from `05_memory_alignment_and_padding`. On a 64-bit machine a `Node<int>` holds an `int` (4 bytes, plus 4 bytes of padding) and one pointer (8 bytes), so it takes **16 bytes**, four times the size of the `int` it stores. A doubly linked node has two pointers and takes **24 bytes**. The pointers add a fixed 8 bytes each, whatever `T` is: a `Node<string>` takes 40 bytes in a singly linked list (a 32-byte `string` plus a pointer) and 48 bytes in a doubly linked one.
 
 ---
 
@@ -89,7 +91,7 @@ head
 ### Usage
 
 ```cpp
-#include "LinkedList.h"
+#include "Linked_List.hpp"
 
 int main()
 {
@@ -102,7 +104,7 @@ int main()
 
     l.DelAtVal(10);        // 5 15 20
     l.printList();
-    std::cout << l.getCount() << '\n';
+    cout << l.getCount() << '\n';
 }
 ```
 
@@ -112,20 +114,16 @@ Output:
 5 10 15 20
 5 15 20
 3
-Node Has Been Deleted.
 ```
 
-The last line comes from the destructor, which frees every node and prints a message.
-
-Because the list is a template, the same code works for other types. For example, with `std::string`:
+Because the list is a template, the same code works for other types. For example, with `string`:
 
 ```cpp
-#include <string>
-#include "LinkedList.h"
+#include "Linked_List.hpp"
 
 int main()
 {
-    Linked_List<std::string> names;
+    Linked_List<string> names;
     names.AddToTail("Sara");
     names.AddToTail("Omar");
     names.AddToHead("Mona");
@@ -140,7 +138,6 @@ Output:
 ```
 Mona Sara Omar
 Mona Sara
-Node Has Been Deleted.
 ```
 
 ### Constructors and destructor
@@ -148,7 +145,7 @@ Node Has Been Deleted.
 | Function | Description | Time |
 | --- | --- | --- |
 | `Linked_List()` | Creates an empty list (`head = nullptr`) | O(1) |
-| `~Linked_List()` | Walks the list and deletes every node, then prints `Node Has Been Deleted.` | O(n) |
+| `~Linked_List()` | Walks the list and deletes every node | O(n) |
 
 ### Functions reference
 
@@ -220,7 +217,7 @@ There is no `nullptr` at the end, so the loops change. A normal list walks `whil
 ### Usage
 
 ```cpp
-#include "Circular_Linked_List.h"
+#include "Circular_Linked_List.hpp"
 
 int main()
 {
@@ -247,7 +244,6 @@ Output:
 0 1 2 9 3
 0 2 9 3
 List Size Is : 4
-List Has Been Deleted
 ```
 
 ### Functions reference
@@ -255,7 +251,7 @@ List Has Been Deleted
 | Function | Description | Time |
 | --- | --- | --- |
 | `Circular_Linked_List()` | Creates an empty list | O(1) |
-| `~Circular_Linked_List()` | Deletes every node, then prints `List Has Been Deleted` | O(n) |
+| `~Circular_Linked_List()` | Deletes every node | O(n) |
 | `IsEmpty()` | Returns `true` if the list has no nodes | O(1) |
 | `getCount()` | Prints `List Size Is : n` | O(n) |
 | `PrintList()` | Prints all values starting from `head` | O(n) |
@@ -288,7 +284,7 @@ null <-[ 0 ]<->[ 1 ]<->[ 2 ]<->[ 3 ]-> null
 ### Usage
 
 ```cpp
-#include "Doubly_Linked_List.h"
+#include "Doubly_Linked_List.hpp"
 
 int main()
 {
@@ -315,7 +311,6 @@ Output:
 0 1 7 2 3
 0 1 7 3
 Value Is Found, Value's Position Is : 4
-Node Has Been Deleted.
 ```
 
 ### Functions reference
@@ -323,7 +318,7 @@ Node Has Been Deleted.
 | Function | Description | Time |
 | --- | --- | --- |
 | `Doubly_Linked_List()` | Creates an empty list | O(1) |
-| `~Doubly_Linked_List()` | Deletes every node, then prints `Node Has Been Deleted.` | O(n) |
+| `~Doubly_Linked_List()` | Deletes every node | O(n) |
 | `IsEmpty()` | Returns `true` if the list has no nodes | O(1) |
 | `FindNode(val)` | Prints the 1-based position of the first node with value `val` | O(n) |
 | `printList()` | Prints all values from head to tail | O(n) |

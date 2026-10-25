@@ -8,7 +8,7 @@ class Node
 {
 public:
     T Data;
-    Node *next;
+    Node<T> *next;
  
     Node(T val)
     {
@@ -22,7 +22,7 @@ template <typename T>
 class Circular_Linked_List
 {
 private:
-    Node *head;
+    Node<T> *head;
  
 public:
     // ---------- Constructors and destructor ----------
@@ -33,8 +33,8 @@ public:
  
     ~Circular_Linked_List()
     {
-        Node *curr = head->next;
-        Node *n = curr->next;
+        Node<T> *curr = head->next;
+        Node<T> *n = curr->next;
         while(curr != head)
         {
             n = curr->next;
@@ -60,7 +60,7 @@ public:
             return;
         }
         int idx = 1;
-        Node *curr = head->next;
+        Node<T> *curr = head->next;
         while(curr != head)
         {
             curr = curr->next;
@@ -77,7 +77,7 @@ public:
             return;
         }
         cout << head->Data;
-        Node *curr = head->next;
+        Node<T> *curr = head->next;
         while(curr != head)
         {
             cout << " " << curr->Data;
@@ -87,16 +87,16 @@ public:
     }
  
     // ---------- Adding ----------
-    void AddToHead(int val)
+    void AddToHead(T val)
     {
-        Node *n = new Node(val);
+        Node<T> *n = new Node<T>(val);
         if(head == nullptr)
         {
             n->next = n;
             head = n;
         }
         n->next = head;
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr->next != head)
         {
             curr = curr->next;
@@ -105,15 +105,15 @@ public:
         head = n;
     }
  
-    void AddToTail(int val)
+    void AddToTail(T val)
     {
-        Node *n = new Node(val);
+        Node<T> *n = new Node<T>(val);
         if(head == nullptr)
         {
             n->next = n;
             head = n;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr->next != head)
         {
             curr = curr->next;
@@ -123,21 +123,21 @@ public:
     }
  
     // Adds a new node with `data` after the first node whose value is `val`.
-    void InsertAfter(int val, int data)
+    void InsertAfter(T val, T data)
     {
         if(IsEmpty())
         {
             cout << "List Is Empty." << '\n';
             return;
         }
-        Node *no = new Node(data);
+        Node<T> *no = new Node<T>(data);
         if(head->Data == val)
         {
             no->next = head->next;
             head->next = no;
             return;
         }
-        Node *curr = head->next;
+        Node<T> *curr = head->next;
         while(curr != head && curr->Data != val)
         {
             curr = curr->next;
@@ -165,9 +165,9 @@ public:
             head = nullptr;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         head = head->next;
-        Node *last = head;
+        Node<T> *last = head;
         while(last->next != curr)
         {
             last = last->next;
@@ -190,7 +190,7 @@ public:
             head = nullptr;
             return;
         }
-        Node *curr = head;
+        Node<T> *curr = head;
         while(curr->next->next != head)
         {
             curr = curr->next;
@@ -200,7 +200,7 @@ public:
     }
  
     // Removes the first node whose value is `val`.
-    void DeleteNode(int val)
+    void DeleteNode(T val)
     {
         if(IsEmpty())
         {
@@ -226,8 +226,8 @@ public:
             DeleteFromHead();
             return;
         }
-        Node *curr = head->next;
-        Node *pre = head;
+        Node<T> *curr = head->next;
+        Node<T> *pre = head;
         while(curr != head && val != curr->Data)
         {
             pre = curr;
