@@ -3,130 +3,61 @@
 
 #include "Template.hpp"
 
-#define MAX_SIZE 4
-
-template <typename T> class CircularQueue
+// Queue stored in a fixed-size circular array. front and rear wrap around
+// with the modulo operator, so freed space is reused.
+// size() and search() report positions counted from the front (0-based).
+template <typename T>
+class CircularQueue
 {
+private:
+    static constexpr int MAX_SIZE = 4;
+ 
     T arr[MAX_SIZE];
     int front, rear;
+ 
 public:
+    // ---------- Constructor ----------
     CircularQueue()
     {
         front = rear = -1;
     }
-    bool isEmpty()
+ 
+    // ---------- Utilities ----------
+    bool isEmpty() const
     {
         return front == -1 && rear == -1;
     }
-    bool isFull()
+ 
+    bool isFull() const
     {
         return front == (rear + 1) % MAX_SIZE;
     }
-
-    void enqueue(int value)
+ 
+    int Size() const
     {
-        if(isFull())
-        {
-            cout << "Queue is full (overflow)\n";
-            return;
-        }
-        else if(isEmpty())
-        {
-            front = rear = 0;      
-        }
-        else
-        {
-            rear = (rear + 1) % MAX_SIZE;
-        }
-        arr[rear] = value;
+        if(isEmpty()) return 0;
+        int count = 1;
+        for(int i = front; i != rear; i = (i + 1) % MAX_SIZE) count++;
+        return count;
     }
-
-    int dequeue()
-    {
-        if(isEmpty())
-        {  
-            throw "The queue is empty (Underflow)";
-        }
-        else
-        {
-            int temp  = arr[front];
-            if(front == rear){  
-                front = rear = -1;
-            }
-            else
-            {
-                front = (front + 1) % MAX_SIZE;
-            }
-            return temp;
-        }
-    }
-
-
-
-    int peek()
-    {
-        if(isEmpty())
-        {  
-            throw "Queue is empty (Underflow)\n";
-        }
-        else
-        {
-            return arr[front];
-        }
-    }
-
-    void print()
+ 
+    void print() const
     {
         if(isEmpty())
         {
-            cout << "Queue is Empty\n";
+            std::cout << "Queue is Empty\n";
         }
         else
         {
             for(int i = front; i != rear; i = (i + 1) % MAX_SIZE)
             {
-                cout << arr[i] << " ";
+                std::cout << arr[i] << " ";
             }
-            cout << arr[rear] << nl;
+            std::cout << arr[rear] << '\n';
         }
     }
-
-    int Size()
-    {
-        if(isEmpty()) return 0;
-        int count = 1;
-        for(int i = front; i != rear; i = (i + 1) % MAX_SIZE)  count++;
-        return count;
-    }
-
-    void enqueueN(int n)
-    {
-        cout << "Enter " << n << " values:\n";
-        for(int i = 0; i < n; i++)
-        {
-            T x;
-            cin >> x;
-            enqueue(x);
-        }
-    }
-
-    void dequeueN(int n)
-    {
-        for(int i = 0; i < n; i++)
-        {
-            try
-            {
-                cout << "Removed: " << dequeue() << "\n";
-            }
-            catch(const char* msg)
-            {
-                cout << msg << "\n";
-                return;
-            }
-        }
-    }
-
-    int search(T value)
+ 
+    int search(T value) const
     {
         if(isEmpty()) return -1;
         int pos = 0;
@@ -137,6 +68,86 @@ public:
             pos++;
         }
         return -1;
+    }
+ 
+    // ---------- Queue operations ----------
+    void enqueue(int value)
+    {
+        if(isFull())
+        {
+            std::cout << "Queue is full (overflow)\n";
+            return;
+        }
+        else if(isEmpty())
+        {
+            front = rear = 0;
+        }
+        else
+        {
+            rear = (rear + 1) % MAX_SIZE;
+        }
+        arr[rear] = value;
+    }
+ 
+    int dequeue()
+    {
+        if(isEmpty())
+        {
+            throw "The queue is empty (Underflow)";
+        }
+        else
+        {
+            int temp = arr[front];
+            if(front == rear)
+            {
+                front = rear = -1;
+            }
+            else
+            {
+                front = (front + 1) % MAX_SIZE;
+            }
+            return temp;
+        }
+    }
+ 
+    int peek() const
+    {
+        if(isEmpty())
+        {
+            throw "Queue is empty (Underflow)\n";
+        }
+        else
+        {
+            return arr[front];
+        }
+    }
+ 
+    // ---------- Bulk operations ----------
+    void enqueueN(int n)
+    {
+        std::cout << "Enter " << n << " values:\n";
+        for(int i = 0; i < n; i++)
+        {
+            T x;
+            std::cin >> x;
+            enqueue(x);
+        }
+    }
+ 
+    void dequeueN(int n)
+    {
+        for(int i = 0; i < n; i++)
+        {
+            try
+            {
+                std::cout << "Removed: " << dequeue() << "\n";
+            }
+            catch(const char *msg)
+            {
+                std::cout << msg << "\n";
+                return;
+            }
+        }
     }
 };
 

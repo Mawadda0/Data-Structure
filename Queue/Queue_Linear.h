@@ -2,31 +2,58 @@
 #define QUEUELINEAR_H
 
 #include "Template.hpp"
-
-#define MAX_SIZE 5
-template <typename T> class  Queue
+ 
+// Queue stored in a fixed-size array. front and rear only move forward,
+// so space freed by dequeue is not reused until the queue becomes empty.
+template <typename T>
+class Queue
 {
+private:
+    static constexpr int MAX_SIZE = 5;
+ 
     T arr[MAX_SIZE];
     int front, rear;
+ 
 public:
+    // ---------- Constructor ----------
     Queue()
     {
         front = rear = -1;
     }
-    bool isEmpty()
+ 
+    // ---------- Utilities ----------
+    bool isEmpty() const
     {
         return front == -1 && rear == -1;
     }
-    bool isFull()
+ 
+    bool isFull() const
     {
         return rear == MAX_SIZE - 1;
     }
-
+ 
+    void print() const
+    {
+        if(isEmpty())
+        {
+            std::cout << "Queue is Empty\n";
+        }
+        else
+        {
+            for(int i = front; i <= rear; i++)
+            {
+                std::cout << arr[i] << " ";
+            }
+            std::cout << '\n';
+        }
+    }
+ 
+    // ---------- Queue operations ----------
     void enqueue(int value)
     {
         if(rear == MAX_SIZE - 1)
         {
-            cout << "Queue is full (overflow)\n";
+            std::cout << "Queue is full (overflow)\n";
             return;
         }
         else if(isEmpty())
@@ -39,18 +66,18 @@ public:
         }
         arr[rear] = value;
     }
-
+ 
     int dequeue()
     {
         if(isEmpty())
-        {  
+        {
             throw "The queue is empty (Underflow)";
         }
         else
         {
-            int temp  = arr[front];
+            int temp = arr[front];
             if(front == rear)
-            {  
+            {
                 front = rear = -1;
             }
             else
@@ -60,12 +87,11 @@ public:
             return temp;
         }
     }
-
-
-    int peek()
+ 
+    int peek() const
     {
         if(isEmpty())
-        {  
+        {
             throw "Queue is empty (Underflow)\n";
         }
         else
@@ -73,23 +99,6 @@ public:
             return arr[front];
         }
     }
-
-    void print()
-    {
-        if(isEmpty())
-        {
-            cout << "Queue is Empty\n";
-        }
-        else
-        {
-            for(int i = front; i <= rear; i++)
-            {
-                cout << arr[i] << " ";
-            }
-            cout << endl;
-        }
-    }
 };
-
 
 #endif
