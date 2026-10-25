@@ -36,7 +36,7 @@ public:
     {
         if(isEmpty())
         {
-            cout << "Queue is Empty\n";
+            cout << "Queue is Empty" << nl;
         }
         else
         {
@@ -53,7 +53,7 @@ public:
     {
         if(rear == MAX_SIZE - 1)
         {
-            cout << "Queue is full (overflow)\n";
+            cout << "Queue is full (overflow)" << nl;
             return;
         }
         else if(isEmpty())
@@ -71,7 +71,7 @@ public:
     {
         if(isEmpty())
         {
-            throw "The queue is empty (Underflow)";
+            throw "The queue is empty (Underflow)\n";
         }
         else
         {

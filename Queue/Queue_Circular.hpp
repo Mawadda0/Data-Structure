@@ -45,7 +45,7 @@ public:
     {
         if(isEmpty())
         {
-            cout << "Queue is Empty\n";
+            cout << "Queue is Empty" << nl;
         }
         else
         {
@@ -53,7 +53,7 @@ public:
             {
                 cout << arr[i] << " ";
             }
-            cout << arr[rear] << '\n';
+            cout << arr[rear] << nl;
         }
     }
  
@@ -75,7 +75,7 @@ public:
     {
         if(isFull())
         {
-            cout << "Queue is full (overflow)\n";
+            cout << "Queue is full (overflow)" << nl;
             return;
         }
         else if(isEmpty())
@@ -93,7 +93,7 @@ public:
     {
         if(isEmpty())
         {
-            throw "The queue is empty (Underflow)";
+            throw "The queue is empty (Underflow)\n";
         }
         else
         {
@@ -125,7 +125,7 @@ public:
     // ---------- Bulk operations ----------
     void enqueueN(int n)
     {
-        cout << "Enter " << n << " values:\n";
+        cout << "Enter " << n << " values:" << nl;
         for(int i = 0; i < n; i++)
         {
             T x;
@@ -140,11 +140,11 @@ public:
         {
             try
             {
-                cout << "Removed: " << dequeue() << "\n";
+                cout << "Removed: " << dequeue() << nl;
             }
             catch(const char *msg)
             {
-                cout << msg << "\n";
+                cout << msg << nl;
                 return;
             }
         }

@@ -48,7 +48,7 @@ public:
     {
         if(isEmpty())
         {
-            cout << "Queue is Empty\n";
+            cout << "Queue is Empty" << nl;
             return;
         }
  
@@ -83,7 +83,7 @@ public:
     {
         if(isEmpty())
         {
-            throw "Queue is empty (Underflow)";
+            throw "Queue is empty (Underflow)\n";
         }
  
         Node<T> *temp = head;
@@ -105,7 +105,7 @@ public:
     {
         if(isEmpty())
         {
-            throw "Queue is empty (Underflow)";
+            throw "Queue is empty (Underflow)\n";
         }
         return head->data;
     }
