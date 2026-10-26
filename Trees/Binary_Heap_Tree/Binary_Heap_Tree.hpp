@@ -75,9 +75,7 @@ public:
     // ---------- Constructors ----------
     // No destructor or copy functions are needed: the vector manages its own memory,
     // so copying a Heap is already a deep copy.
-    Heap()
-    {
-    }
+    Heap() {}
  
     // Builds a heap from a vector in O(n): heapify down every node that has a child,
     // starting from the last one.
@@ -117,7 +115,7 @@ public:
  
     // ---------- Adding and removing ----------
     // Adds the item as the last leaf, then moves it up to its place.
-    void push(const T &item)
+    void push(const T & item)
     {
         nums.push_back(item);
         HeapfiyUp(size() - 1);
@@ -146,7 +144,7 @@ public:
             cout << "Heap Is Empty." << nl;
             return;
         }
-        for(const T &x : nums) cout << x << " ";
+        for(const T & x : nums) cout << x << " ";
         cout << nl;
     }
 };

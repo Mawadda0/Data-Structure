@@ -440,13 +440,14 @@ Balanced, n = 7, h = 3          Skewed, n = 4, h = 4
 
 Inserting values that are **already sorted** is the worst case: every new value is the largest so far and goes to the right, and the tree becomes a linked list. The recursion also uses one stack frame per level, so a very skewed tree with a very large number of levels can overflow the call stack.
 
-This is the reason balanced trees exist. The AVL tree later keeps the height close to log2(n) by rebalancing after every insertion and deletion, and that is why `TreeHeight` is part of this class.
+This is the reason self-balancing trees exist (such as the AVL tree). They rebalance the tree after every insertion and deletion to keep the height close to log2(n), whatever the insertion order is. They are not part of this repository, which stops at the binary tree, the binary search tree, and the heap. `TreeHeight` is part of this class so the problem can be measured: a height close to `TreeCount` means the tree has become a linked list.
 
 ---
 
 ## Design Notes and Limitations
 
 - **The tree is not self-balancing.** Its speed depends on the insertion order. Sorted input gives O(n) operations.
+- **Sorted input is the weak point.** If the values come already sorted (for example, from a sorted array), every operation becomes O(n) and the tree is no better than a linked list. In that case the data structure has to be refined, and a self-balancing tree such as the AVL tree is the usual solution. It is **not implemented here**: this repository only contains the three trees above, so with this class the practical fixes are to insert the values in a shuffled order, or to insert the middle value first and then the middle of each half.
 - **Duplicates are allowed** and go to the right. `Delete` removes only **one** of them, and `TreeSearch` only tells whether at least one exists.
 - **Only `operator<` is used** to compare values, so a custom type does not need `==`, `>`, or any other operator.
 - **`Delete` copies the successor's value** into the node instead of relinking the nodes. This is simple, but it means a pointer to a node's value may point to a different value after a deletion.
