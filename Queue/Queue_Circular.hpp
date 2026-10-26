@@ -1,5 +1,5 @@
-#ifndef QUEUECIRCULAR_H
-#define QUEUECIRCULAR_H
+#ifndef QUEUECIRCULAR_HPP
+#define QUEUECIRCULAR_HPP
 
 #include "Template.hpp"
 

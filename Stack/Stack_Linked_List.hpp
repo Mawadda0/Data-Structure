@@ -1,5 +1,5 @@
-#ifndef STACKLINKEDLIST_H
-#define STACKLINKEDLIST_H
+#ifndef STACKLINKEDLIST_HPP
+#define STACKLINKEDLIST_HPP
 
 #include "Template.hpp"
 

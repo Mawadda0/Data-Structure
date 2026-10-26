@@ -1,5 +1,5 @@
-#ifndef QUEUELINKEDLIST_H
-#define QUEUELINKEDLIST_H
+#ifndef QUEUELINKEDLIST_HPP
+#define QUEUELINKEDLIST_HPP
 
 #include "Template.hpp"
 

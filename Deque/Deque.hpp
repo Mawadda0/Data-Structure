@@ -1,5 +1,5 @@
-#ifndef DEQUE_H
-#define DEQUE_H
+#ifndef DEQUE_HPP
+#define DEQUE_HPP
 
 #include "Template.hpp"
 

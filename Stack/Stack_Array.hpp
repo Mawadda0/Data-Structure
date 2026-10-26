@@ -1,5 +1,5 @@
-#ifndef STACKARRAY_H
-#define STACKARRAY_H
+#ifndef STACKARRAY_HPP
+#define STACKARRAY_HPP
 
 #include "Template.hpp"
 

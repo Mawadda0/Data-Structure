@@ -1,5 +1,5 @@
-#ifndef QUEUELINEAR_H
-#define QUEUELINEAR_H
+#ifndef QUEUELINEAR_HPP
+#define QUEUELINEAR_HPP
 
 #include "Template.hpp"
  

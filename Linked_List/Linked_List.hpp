@@ -1,5 +1,5 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef LINKEDLIST_HPP
+#define LINKEDLIST_HPP
 
 #include "Template.hpp"
 
